@@ -17,6 +17,31 @@
             justify-content: center;
             align-items: center;
             flex-direction: column;
+            position: relative;
+        }
+
+        /* Анимация черной дыры */
+        .black-hole {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 300px;
+            height: 300px;
+            background: radial-gradient(circle, #000000, #111111, #1a1a1a, #000000);
+            border-radius: 50%;
+            box-shadow: 0 0 100px rgba(0, 0, 0, 0.8);
+            transform: translate(-50%, -50%);
+            animation: rotate 15s linear infinite; /* Вращение */
+        }
+
+        /* Анимация вращения */
+        @keyframes rotate {
+            from {
+                transform: translate(-50%, -50%) rotate(0deg);
+            }
+            to {
+                transform: translate(-50%, -50%) rotate(360deg);
+            }
         }
 
         /* Стили для кнопок социальных сетей */
@@ -53,6 +78,7 @@
             position: relative;
             width: 100%;
             max-width: 600px;
+            z-index: 2; /* Поверх черной дыры */
         }
 
         /* Текст "Реферальный код GTA 5 RP" */
@@ -124,6 +150,9 @@
     </style>
 </head>
 <body>
+
+    <!-- Анимация черной дыры -->
+    <div class="black-hole"></div>
 
     <!-- Социальные кнопки -->
     <div class="social-links">
