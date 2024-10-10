@@ -3,70 +3,83 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Черный сайт</title>
+    <title>Минималистичный квадратный дизайн</title>
     <style>
-        /* Общие стили */
         body {
             margin: 0;
             padding: 0;
-            background-color: #000000;
+            background-color: #0d0d0d; /* Темный фон */
+            font-family: 'Arial', sans-serif;
             color: #ffffff;
-            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            overflow: hidden;
         }
 
-        /* Контейнер для содержимого */
+        /* Основной контейнер */
         .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 20px;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            grid-gap: 20px;
+            max-width: 80%;
         }
 
-        /* Заголовок */
-        h1 {
-            text-align: center;
-            font-size: 3em;
-            margin-top: 50px;
+        /* Квадратные блоки */
+        .square {
+            width: 100%;
+            padding-bottom: 100%; /* Это создает квадрат */
+            background-color: #1a1a1a;
+            position: relative;
+            transition: all 0.3s ease;
+            border: 2px solid #333;
         }
 
-        /* Кнопка */
-        .btn {
-            display: inline-block;
-            background-color: #ffffff;
-            color: #000000;
-            padding: 10px 20px;
-            text-decoration: none;
-            border-radius: 5px;
-            font-size: 1.2em;
-            transition: background-color 0.3s ease;
-        }
-
-        .btn:hover {
-            background-color: #ff6600;
+        /* Текст внутри квадратов */
+        .square p {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            margin: 0;
+            font-size: 1.5em;
+            letter-spacing: 2px;
             color: #ffffff;
+            text-transform: uppercase;
+        }
+
+        /* Ховер-эффект */
+        .square:hover {
+            background-color: #ff6600;
+            border-color: #ff6600;
+            transform: scale(1.05);
         }
 
         /* Подвал */
         footer {
-            text-align: center;
-            padding: 20px;
-            background-color: #1a1a1a;
-            position: absolute;
-            bottom: 0;
-            width: 100%;
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: #555;
         }
     </style>
 </head>
 <body>
+
     <div class="container">
-        <h1>Добро пожаловать на черный сайт</h1>
-        <p style="text-align: center;">Это простой пример сайта с черным дизайном. Нажмите на кнопку ниже, чтобы узнать больше.</p>
-        <div style="text-align: center;">
-            <a href="#" class="btn">Подробнее</a>
-        </div>
+        <div class="square"><p>Home</p></div>
+        <div class="square"><p>About</p></div>
+        <div class="square"><p>Services</p></div>
+        <div class="square"><p>Portfolio</p></div>
+        <div class="square"><p>Blog</p></div>
+        <div class="square"><p>Contact</p></div>
     </div>
 
     <footer>
-        <p>© 2024 Ваш Сайт. Все права защищены.</p>
+        © 2024 Ваш Сайт. Все права защищены.
     </footer>
+
 </body>
 </html>
