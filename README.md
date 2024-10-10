@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
@@ -22,7 +23,8 @@
         .social-links {
             position: absolute;
             top: 20px;
-            width: 100%;
+            left: 50%;
+            transform: translateX(-50%); /* Выровняем блок по центру */
             display: flex;
             justify-content: center;
             align-items: center;
