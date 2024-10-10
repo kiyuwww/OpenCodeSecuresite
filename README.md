@@ -17,6 +17,7 @@
             display: flex;
             justify-content: center;
             align-items: center;
+            flex-direction: column;
             position: relative;
         }
 
@@ -96,10 +97,6 @@
 
         /* Контейнер для анимации */
         .container {
-            display: flex;
-            flex-direction: column;
-            align-items: center; /* Выравнивание по центру */
-            justify-content: center; /* Выравнивание по центру */
             text-align: center;
             position: relative;
             width: 100%;
@@ -227,4 +224,5 @@
         <!-- Текст "Реферальный код GTA 5 RP" -->
         <div class="ref-text">Реферальный код GTA 5 RP</div>
         
-        <!-- Квадрат с промок
+        <!-- Квадрат с промокодом -->
+        <div class="promo-code">ASTA</div
