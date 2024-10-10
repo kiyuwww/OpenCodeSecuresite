@@ -12,6 +12,7 @@
             font-family: 'Arial', sans-serif;
             color: #ffffff;
             height: 100vh;
+            width: 100vw;
             overflow: hidden;
             display: flex;
             justify-content: center;
@@ -25,13 +26,33 @@
             position: absolute;
             top: 50%;
             left: 50%;
-            width: 300px;
-            height: 300px;
-            background: radial-gradient(circle, #000000, #111111, #1a1a1a, #000000);
+            width: 1920px; /* Ширина на 1920px */
+            height: 1080px; /* Высота на 1080px */
+            background: radial-gradient(circle, #000000 40%, #1a1a1a 80%, #000000);
             border-radius: 50%;
             box-shadow: 0 0 100px rgba(0, 0, 0, 0.8);
             transform: translate(-50%, -50%);
             animation: rotate 15s linear infinite; /* Вращение */
+            overflow: hidden;
+        }
+
+        /* Полосы */
+        .strip {
+            position: absolute;
+            width: 100%;
+            height: 20px; /* Высота полосы */
+            background: rgba(255, 255, 255, 0.2); /* Полупрозрачные белые полосы */
+            animation: move 2s linear infinite;
+        }
+
+        /* Анимация полос */
+        @keyframes move {
+            0% {
+                top: 0;
+            }
+            100% {
+                top: 100%; /* Перемещение полосы вниз */
+            }
         }
 
         /* Анимация вращения */
@@ -53,6 +74,7 @@
             display: flex;
             justify-content: center;
             align-items: center;
+            z-index: 2; /* Поверх черной дыры */
         }
 
         .social-btn {
@@ -153,6 +175,12 @@
 
     <!-- Анимация черной дыры -->
     <div class="black-hole"></div>
+
+    <!-- Полосы -->
+    <div class="strip"></div>
+    <div class="strip" style="top: 25%;"></div>
+    <div class="strip" style="top: 50%;"></div>
+    <div class="strip" style="top: 75%;"></div>
 
     <!-- Социальные кнопки -->
     <div class="social-links">
