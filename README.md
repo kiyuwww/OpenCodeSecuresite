@@ -1,4 +1,3 @@
-<!DOCTYPE html>
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
@@ -16,6 +15,7 @@
             display: flex;
             justify-content: center;
             align-items: center;
+            flex-direction: column;
         }
 
         /* Контейнер для анимации */
@@ -23,7 +23,7 @@
             text-align: center;
             position: relative;
             width: 100%;
-            height: 100%;
+            max-width: 600px;
         }
 
         /* Текст "Реферальный код GTA 5 RP" */
@@ -34,6 +34,7 @@
             letter-spacing: 3px;
             opacity: 0;
             animation: fadeInText 2s forwards 0.5s;
+            margin-bottom: 20px; /* Расстояние до промокода */
         }
 
         /* Квадрат с промокодом */
@@ -45,11 +46,7 @@
             text-transform: uppercase;
             letter-spacing: 10px;
             display: inline-block;
-            position: absolute;
             background-color: #1a1a1a;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
             opacity: 0;
             animation: promoIn 2s forwards 1s;
         }
@@ -70,15 +67,11 @@
         @keyframes promoIn {
             0% {
                 opacity: 0;
-                transform: translate(-50%, -200%);
-            }
-            50% {
-                opacity: 0.5;
-                transform: translate(-50%, 50%);
+                transform: translateY(100%);
             }
             100% {
                 opacity: 1;
-                transform: translate(-50%, -50%);
+                transform: translateY(0);
             }
         }
 
