@@ -39,10 +39,11 @@
         /* Полосы */
         .strip {
             position: absolute;
-            width: 100%;
+            width: 100vw; /* Ширина 100% от ширины экрана */
             height: 20px; /* Высота полосы */
             background: rgba(255, 255, 255, 0.2); /* Полупрозрачные белые полосы */
             animation: move 2s linear infinite;
+            left: 0; /* Начинаем с левой стороны экрана */
         }
 
         /* Анимация полос */
@@ -223,13 +224,5 @@
         <!-- Текст "Реферальный код GTA 5 RP" -->
         <div class="ref-text">Реферальный код GTA 5 RP</div>
         
-        <!-- Квадрат с промокодом ASTA -->
-        <div class="promo-code">ASTA</div>
-    </div>
-
-    <footer>
-        © 2024 Ваш Сайт. Все права защищены.
-    </footer>
-
-</body>
-</html>
+        <!-- Квадрат с промокодом -->
+        <div class="promo-code">ASTA</div
