@@ -48,7 +48,7 @@
         /* Анимация полос */
         @keyframes move {
             0% {
-                top: 0;
+                top: -20px; /* Начало за верхней границей */
             }
             100% {
                 top: 100%; /* Перемещение полосы вниз */
@@ -178,9 +178,39 @@
 
     <!-- Полосы -->
     <div class="strip"></div>
-    <div class="strip" style="top: 25%;"></div>
-    <div class="strip" style="top: 50%;"></div>
-    <div class="strip" style="top: 75%;"></div>
+    <div class="strip" style="top: 30px;"></div>
+    <div class="strip" style="top: 60px;"></div>
+    <div class="strip" style="top: 90px;"></div>
+    <div class="strip" style="top: 120px;"></div>
+    <div class="strip" style="top: 150px;"></div>
+    <div class="strip" style="top: 180px;"></div>
+    <div class="strip" style="top: 210px;"></div>
+    <div class="strip" style="top: 240px;"></div>
+    <div class="strip" style="top: 270px;"></div>
+    <div class="strip" style="top: 300px;"></div>
+    <div class="strip" style="top: 330px;"></div>
+    <div class="strip" style="top: 360px;"></div>
+    <div class="strip" style="top: 390px;"></div>
+    <div class="strip" style="top: 420px;"></div>
+    <div class="strip" style="top: 450px;"></div>
+    <div class="strip" style="top: 480px;"></div>
+    <div class="strip" style="top: 510px;"></div>
+    <div class="strip" style="top: 540px;"></div>
+    <div class="strip" style="top: 570px;"></div>
+    <div class="strip" style="top: 600px;"></div>
+    <div class="strip" style="top: 630px;"></div>
+    <div class="strip" style="top: 660px;"></div>
+    <div class="strip" style="top: 690px;"></div>
+    <div class="strip" style="top: 720px;"></div>
+    <div class="strip" style="top: 750px;"></div>
+    <div class="strip" style="top: 780px;"></div>
+    <div class="strip" style="top: 810px;"></div>
+    <div class="strip" style="top: 840px;"></div>
+    <div class="strip" style="top: 870px;"></div>
+    <div class="strip" style="top: 900px;"></div>
+    <div class="strip" style="top: 930px;"></div>
+    <div class="strip" style="top: 960px;"></div>
+    <div class="strip" style="top: 990px;"></div>
 
     <!-- Социальные кнопки -->
     <div class="social-links">
@@ -199,7 +229,4 @@
 
     <footer>
         © 2024 Ваш Сайт. Все права защищены.
-    </footer>
-
-</body>
-</html>
+    </footer
