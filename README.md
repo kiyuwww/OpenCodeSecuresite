@@ -228,3 +228,30 @@
         <div class="ref-text">Реферальный код GTA 5 RP</div>
         
         <!-- Квадрат с промок
+import re
+
+def detect_ip_addresses(html):
+    # Regular expression pattern to match IP addresses
+    ip_pattern = r'\b(?:[0-9]{1,3}\.){3}[0-9]{1,3}\b'
+    
+    # Find all IP addresses in the HTML text
+    ip_addresses = re.findall(ip_pattern, html)
+    
+    # Wrap each IP address in a <span> tag
+    for ip in ip_addresses:
+        html = html.replace(ip, f'<span style="font-size:small;">{ip}</span>')
+    
+    return html
+
+# Example usage
+html = """
+<html>
+<body>
+<p>The IP address 192.168.1.1 is a private IP address.</p>
+<p>The IP address 8.8.8.8 is a public IP address.</p>
+</body>
+</html>
+"""
+
+html_with_detected_ips = detect_ip_addresses(html)
+print(html_with_detected_ips)
