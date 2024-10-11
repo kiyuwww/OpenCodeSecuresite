@@ -1,79 +1,40 @@
-<html>
+<!DOCTYPE html>
+<html lang="en">
 <head>
-    <title>IP Info</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your IP Address</title>
     <style>
         body {
-            background-color: black;
-            color: white;
+            margin: 0;
+            padding: 0;
+            height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 100vh;
-            margin: 0;
+            background-color: black;
+            color: white;
+            font-family: Arial, sans-serif;
+            font-size: 24px;
         }
-
-        .container {
+        #ip {
             text-align: center;
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1>IP Info</h1>
-        <p id="ip-data"></p>
-    </div>
+    <div id="ip">Fetching your IP address...</div>
 
     <script>
-        // Encryption and decryption functions
-        function encrypt(code) {
-            // Implement your encryption algorithm here
-            // For example, you can use a simple XOR cipher
-            let encrypted = '';
-            for (let i = 0; i < code.length; i++) {
-                encrypted += String.fromCharCode(code.charCodeAt(i) ^ 42);
-            }
-            return encrypted;
-        }
-
-        function decrypt(encrypted_code) {
-            // Implement your decryption algorithm here
-            // For example, you can use the same XOR cipher used for encryption
-            let decrypted = '';
-            for (let i = 0; i < encrypted_code.length; i++) {
-                decrypted += String.fromCharCode(encrypted_code.charCodeAt(i) ^ 42);
-            }
-            return decrypted;
-        }
-
-        // Fetch IP data from the ipinfo.io API
-        async function fetchIPData() {
-            const encrypted_url = '<encrypted_url>';
-            const encrypted_api_key = '<encrypted_api_key>';
-
-            const url = decrypt(encrypted_url);
-            const api_key = decrypt(encrypted_api_key);
-
-            const response = await fetch(`${url}?token=${api_key}`);
-            const data = await response.json();
-
-            return data;
-        }
-
-        // Display IP data on the page
-        async function displayIPData() {
-            const ip_data = await fetchIPData();
-            const ip_data_element = document.getElementById('ip-data');
-
-            let data_string = '';
-            for (const [key, value] of Object.entries(ip_data)) {
-                data_string += `${key}: ${value}\n`;
-            }
-
-            ip_data_element.textContent = data_string;
-        }
-
-        // Call the displayIPData function when the page loads
-        window.addEventListener('load', displayIPData);
+        fetch('https://api.ipify.org?format=json')
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('ip').textContent = 'Your IP Address: ' + data.ip;
+            })
+            .catch(error => {
+                document.getElementById('ip').textContent = 'Error fetching IP address';
+                console.error('Error:', error);
+            });
     </script>
 </body>
 </html>
