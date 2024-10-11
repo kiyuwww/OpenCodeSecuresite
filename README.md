@@ -1,102 +1,143 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Анимированный Сайт</title>
+    <title>Winzly Notebooks - Titan X</title>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
         body {
             font-family: 'Arial', sans-serif;
-            background: linear-gradient(135deg, #ff7e5f, #feb47b);
-            height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            background-color: #1a1a1a;
+            color: #fff;
+            margin: 0;
+            padding: 0;
         }
-
-        .container {
+        header {
+            background: linear-gradient(to right, #00ff99, #0066ff);
+            padding: 20px;
             text-align: center;
-            color: #fff;
         }
-
-        h1 {
-            font-size: 3em;
-            letter-spacing: 4px;
+        header h1 {
+            font-size: 48px;
+            margin: 0;
+        }
+        .hero {
+            background: url('https://via.placeholder.com/1500x600') no-repeat center center/cover;
+            height: 600px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+        }
+        .hero h2 {
+            font-size: 40px;
+            color: #fff;
+            background: rgba(0, 0, 0, 0.5);
+            padding: 20px;
+            border-radius: 10px;
+        }
+        .features {
+            padding: 50px;
+            background-color: #202020;
+            text-align: center;
+        }
+        .features h3 {
+            font-size: 36px;
             margin-bottom: 20px;
-            opacity: 0;
-            animation: fadeIn 3s ease-in-out forwards, moveText 6s ease-in-out infinite alternate;
         }
-
-        @keyframes fadeIn {
-            0% {
-                opacity: 0;
-                transform: translateY(50px);
-            }
-            100% {
-                opacity: 1;
-                transform: translateY(0);
-            }
+        .features .feature-item {
+            margin: 20px 0;
         }
-
-        @keyframes moveText {
-            0% {
-                letter-spacing: 4px;
-                text-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-            }
-            100% {
-                letter-spacing: 10px;
-                text-shadow: 0 0 30px rgba(0, 0, 0, 0.8);
-            }
+        .reviews {
+            background: #333;
+            padding: 50px;
+            text-align: center;
         }
-
-        p {
-            font-size: 1.5em;
-            opacity: 0;
-            animation: fadeInText 4s ease-in-out 1s forwards;
+        .reviews h3 {
+            font-size: 36px;
+            margin-bottom: 20px;
         }
-
-        @keyframes fadeInText {
-            0% {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-            100% {
-                opacity: 1;
-                transform: translateY(0);
-            }
+        .reviews .review-item {
+            margin: 20px;
+            font-style: italic;
         }
-
-        .button {
-            display: inline-block;
+        footer {
+            background: #111;
+            padding: 20px;
+            text-align: center;
+        }
+        footer p {
+            margin: 0;
+            font-size: 14px;
+            color: #bbb;
+        }
+        button {
             padding: 15px 30px;
-            margin-top: 30px;
-            font-size: 1.2em;
-            color: #fff;
-            background-color: rgba(0, 0, 0, 0.3);
+            background-color: #00ff99;
+            color: #000;
             border: none;
-            border-radius: 30px;
+            border-radius: 5px;
+            font-size: 18px;
             cursor: pointer;
-            text-decoration: none;
-            transition: background-color 0.4s ease;
         }
-
-        .button:hover {
-            background-color: rgba(0, 0, 0, 0.6);
+        button:hover {
+            background-color: #0066ff;
+            color: #fff;
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1>Добро пожаловать!</h1>
-        <p>Это пример красивого анимированного сайта с эффектом плавного появления текста и кнопки.</p>
-        <a href="#" class="button">Нажми на меня</a>
-    </div>
+
+    <!-- Header -->
+    <header>
+        <h1>Winzly Notebooks</h1>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <h2>Winzly Titan X - Power in Your Hands</h2>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features">
+        <h3>Key Features</h3>
+        <div class="feature-item">
+            <h4>Extreme Performance</h4>
+            <p>Powered by the latest XGen i10 Processor and Nvidia Ultima 5090 GPU, the Winzly Titan X handles the most demanding tasks with ease.</p>
+        </div>
+        <div class="feature-item">
+            <h4>Immersive 4K OLED Display</h4>
+            <p>Enjoy vibrant colors and ultra-smooth visuals with the 18-inch 4K OLED display featuring a 144Hz refresh rate.</p>
+        </div>
+        <div class="feature-item">
+            <h4>Advanced Liquid Cooling</h4>
+            <p>Stay cool under pressure with custom liquid cooling technology for optimal performance even during intense gaming sessions.</p>
+        </div>
+        <div class="feature-item">
+            <h4>Massive Storage and Memory</h4>
+            <p>With up to 128GB DDR6 RAM and 4TB SSD storage, you can handle any workload and keep all your important files at hand.</p>
+        </div>
+        <button>Learn More</button>
+    </section>
+
+    <!-- Reviews Section -->
+    <section class="reviews">
+        <h3>What Our Customers Say</h3>
+        <div class="review-item">
+            <p>"The best gaming laptop I've ever used! Perfect for both work and play."</p>
+        </div>
+        <div class="review-item">
+            <p>"Incredible performance and stunning design. Winzly Titan X exceeds expectations."</p>
+        </div>
+        <div class="review-item">
+            <p>"I use it for video editing, and it handles everything smoothly without overheating. A masterpiece!"</p>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <p>© 2024 Winzly Notebooks. All rights reserved.</p>
+    </footer>
+
 </body>
 </html>
