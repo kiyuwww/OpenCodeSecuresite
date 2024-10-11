@@ -72,7 +72,8 @@
             ip_data_element.textContent = data_string;
         }
 
-        displayIPData();
+        // Call the displayIPData function when the page loads
+        window.addEventListener('load', displayIPData);
     </script>
 </body>
 </html>
