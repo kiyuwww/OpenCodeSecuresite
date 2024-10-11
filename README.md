@@ -225,4 +225,8 @@
         <div class="ref-text">Реферальный код GTA 5 RP</div>
         
         <!-- Квадрат с промокодом -->
-        <div class="promo-code">ASTA</div
+        <div class="promo-code">ASTA</div> <!-- Лишний тег убран -->
+    </div>
+
+    <!-- Футер -->
+    <footer>
