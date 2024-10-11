@@ -3,189 +3,100 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Winzly Browser</title>
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Анимированный Сайт</title>
     <style>
-        /* Основные стили для страницы */
-        body {
+        * {
             margin: 0;
             padding: 0;
-            background-image: url('https://images.unsplash.com/photo-1506748686214-e9df14d4d9d0');
-            background-size: cover;
-            color: #fff;
-            font-family: 'Arial', sans-serif;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            overflow: hidden;
+            box-sizing: border-box;
         }
 
-        /* Стили для контейнера поиска */
-        .search-container {
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #ff7e5f, #feb47b);
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .container {
             text-align: center;
-            background-color: rgba(0, 0, 0, 0.6);
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 0 15px rgba(0, 0, 0, 0.7);
+            color: #fff;
         }
 
         h1 {
-            font-size: 3rem;
+            font-size: 3em;
+            letter-spacing: 4px;
             margin-bottom: 20px;
-            font-family: 'Courier New', Courier, monospace;
+            opacity: 0;
+            animation: fadeIn 3s ease-in-out forwards, moveText 6s ease-in-out infinite alternate;
         }
 
-        input[type="text"], input[type="password"] {
-            padding: 10px;
-            width: 300px;
-            font-size: 18px;
-            border: none;
-            border-radius: 5px;
-            margin-right: 10px;
-            margin-bottom: 10px;
+        @keyframes fadeIn {
+            0% {
+                opacity: 0;
+                transform: translateY(50px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
-        input[type="submit"] {
-            padding: 10px 20px;
-            font-size: 18px;
-            border: none;
-            border-radius: 5px;
-            background-color: #444;
+        @keyframes moveText {
+            0% {
+                letter-spacing: 4px;
+                text-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+            }
+            100% {
+                letter-spacing: 10px;
+                text-shadow: 0 0 30px rgba(0, 0, 0, 0.8);
+            }
+        }
+
+        p {
+            font-size: 1.5em;
+            opacity: 0;
+            animation: fadeInText 4s ease-in-out 1s forwards;
+        }
+
+        @keyframes fadeInText {
+            0% {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .button {
+            display: inline-block;
+            padding: 15px 30px;
+            margin-top: 30px;
+            font-size: 1.2em;
             color: #fff;
+            background-color: rgba(0, 0, 0, 0.3);
+            border: none;
+            border-radius: 30px;
             cursor: pointer;
-        }
-
-        input[type="submit"]:hover {
-            background-color: #555;
-        }
-
-        /* Стили для виджета сверху справа */
-        .registration-widget {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            background-color: rgba(0, 0, 0, 0.5);
-            padding: 10px 20px;
-            border-radius: 5px;
-            font-size: 18px;
-            font-weight: bold;
-        }
-
-        .registration-widget a {
-            color: #00aaff;
             text-decoration: none;
+            transition: background-color 0.4s ease;
         }
 
-        .registration-widget a:hover {
-            text-decoration: underline;
-        }
-
-        /* Модальное окно для регистрации/входа */
-        .modal {
-            display: none;
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            background-color: rgba(0, 0, 0, 0.9);
-            padding: 30px;
-            border-radius: 10px;
-            z-index: 10;
-            text-align: center;
-        }
-
-        .modal.active {
-            display: block;
-        }
-
-        .close-btn {
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            color: #fff;
-            cursor: pointer;
+        .button:hover {
+            background-color: rgba(0, 0, 0, 0.6);
         }
     </style>
 </head>
 <body>
-    <!-- Виджет для регистрации -->
-    <div class="registration-widget">
-        <a href="#" id="openModal">Регистрация / Вход</a>
+    <div class="container">
+        <h1>Добро пожаловать!</h1>
+        <p>Это пример красивого анимированного сайта с эффектом плавного появления текста и кнопки.</p>
+        <a href="#" class="button">Нажми на меня</a>
     </div>
-
-    <!-- Модальное окно для регистрации/входа -->
-    <div id="authModal" class="modal">
-        <span class="close-btn" id="closeModal">&times;</span>
-        <h2>Регистрация / Вход</h2>
-        <form id="authForm">
-            <input type="text" id="emailInput" placeholder="Введите email" required><br>
-            <input type="password" id="passwordInput" placeholder="Введите пароль" required><br>
-            <input type="submit" value="Зарегистрироваться / Войти">
-        </form>
-        <p id="message" style="color: red; display: none;"></p>
-    </div>
-
-    <!-- Основной блок поиска -->
-    <div class="search-container" id="searchContainer" style="display: none;">
-        <h1>Winzly Browser</h1>
-        <form id="searchForm" action="" method="get" target="_self">
-            <input type="text" id="searchInput" placeholder="Введите запрос..." />
-            <input type="submit" value="Поиск" />
-        </form>
-    </div>
-
-    <script>
-        // Открыть/закрыть модальное окно
-        const openModalBtn = document.getElementById('openModal');
-        const closeModalBtn = document.getElementById('closeModal');
-        const modal = document.getElementById('authModal');
-        const searchContainer = document.getElementById('searchContainer');
-        const message = document.getElementById('message');
-
-        openModalBtn.onclick = () => {
-            modal.classList.add('active');
-        }
-
-        closeModalBtn.onclick = () => {
-            modal.classList.remove('active');
-        }
-
-        // Функция регистрации / входа
-        document.getElementById('authForm').onsubmit = function(e) {
-            e.preventDefault();
-            const email = document.getElementById('emailInput').value;
-            const password = document.getElementById('passwordInput').value;
-
-            // Проверяем, есть ли пользователь в LocalStorage
-            const storedPassword = localStorage.getItem(email);
-
-            if (storedPassword) {
-                // Если пользователь существует, проверяем пароль
-                if (storedPassword === password) {
-                    alert('Успешный вход!');
-                    modal.classList.remove('active');
-                    searchContainer.style.display = 'block';
-                } else {
-                    message.textContent = 'Неверный пароль!';
-                    message.style.display = 'block';
-                }
-            } else {
-                // Если пользователя нет, регистрируем его
-                localStorage.setItem(email, password);
-                alert('Успешная регистрация!');
-                modal.classList.remove('active');
-                searchContainer.style.display = 'block';
-            }
-        }
-
-        // Функция поиска
-        document.getElementById("searchForm").onsubmit = function(e) {
-            e.preventDefault();
-            var query = document.getElementById("searchInput").value;
-            if (query) {
-                window.location.href = "https://www.google.com/search?q=" + encodeURIComponent(query);
-            }
-        };
-    </script>
 </body>
 </html>
