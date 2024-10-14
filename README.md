@@ -43,6 +43,15 @@
             font-size: 22px;
             font-weight: bold;
             text-shadow: 0 0 5px rgba(0, 0, 0, 0.7);
+            color: white;
+        }
+
+        .mother {
+            transform: translate(-50%, -50%) rotate(90deg);
+        }
+
+        .father {
+            transform: translate(-50%, -50%) rotate(270deg);
         }
 
         /* Добавляем стрелку */
@@ -93,8 +102,8 @@
     <div class="wheel-container">
         <div class="arrow"></div>
         <div id="wheel" class="wheel">
-            <div class="segment-label" style="transform: translate(-50%, -50%) rotate(0deg);">Мать Плюми</div>
-            <div class="segment-label" style="transform: translate(-50%, -50%) rotate(180deg);">Батя Плюми</div>
+            <div class="segment-label mother">Мать Плюми</div>
+            <div class="segment-label father">Батя Плюми</div>
         </div>
         <button id="spinButton" onclick="spinWheel()">SPIN</button>
         <p id="result"></p>
