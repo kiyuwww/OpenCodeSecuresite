@@ -18,49 +18,21 @@
 
         .wheel-container {
             text-align: center;
+            position: relative;
         }
 
         .wheel {
             width: 300px;
             height: 300px;
-            border: 5px solid #333;
             border-radius: 50%;
+            border: 8px solid #333;
+            box-shadow: 0 0 15px rgba(255, 255, 255, 0.2);
+            background: conic-gradient(
+                #ff6363 0 50%, 
+                #1e90ff 50% 100%
+            );
             position: relative;
-            margin-bottom: 20px;
-            box-shadow: 0 0 15px rgba(255, 255, 255, 0.1);
-            background: radial-gradient(circle, #2d2d2d 50%, #1c1c1c);
-        }
-
-        .wheel:before {
-            content: '';
-            width: 4px;
-            height: 150px;
-            background-color: #ffbf00;
-            position: absolute;
-            top: 0;
-            left: 50%;
-            transform: translateX(-50%);
-        }
-
-        .segment {
-            width: 150px;
-            height: 150px;
-            position: absolute;
-            top: 0;
-            left: 50%;
-            transform-origin: 0 100%;
-            border-radius: 50%;
-            box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.5);
-        }
-
-        .segment:nth-child(1) {
-            transform: rotate(45deg);
-            background: linear-gradient(45deg, #ff6363, #ff3333);
-        }
-
-        .segment:nth-child(2) {
-            transform: rotate(225deg);
-            background: linear-gradient(45deg, #1e90ff, #0077ff);
+            transition: transform 4s ease-out;
         }
 
         .segment-label {
@@ -70,8 +42,20 @@
             transform: translate(-50%, -50%);
             font-size: 22px;
             font-weight: bold;
-            color: white;
             text-shadow: 0 0 5px rgba(0, 0, 0, 0.7);
+        }
+
+        /* Добавляем стрелку */
+        .arrow {
+            width: 0; 
+            height: 0; 
+            border-left: 20px solid transparent;
+            border-right: 20px solid transparent;
+            border-bottom: 30px solid #ffbf00;
+            position: absolute;
+            top: -40px;
+            left: 50%;
+            transform: translateX(-50%);
         }
 
         button {
@@ -84,6 +68,7 @@
             border-radius: 30px;
             cursor: pointer;
             transition: background-color 0.3s;
+            margin-top: 20px;
             box-shadow: 0 0 15px rgba(255, 191, 0, 0.5);
         }
 
@@ -101,27 +86,15 @@
             margin-top: 20px;
             font-weight: bold;
         }
-
-        @keyframes spin {
-            0% {
-                transform: rotate(0deg);
-            }
-            100% {
-                transform: rotate(360deg);
-            }
-        }
     </style>
 </head>
 <body>
 
     <div class="wheel-container">
+        <div class="arrow"></div>
         <div id="wheel" class="wheel">
-            <div class="segment" style="transform: rotate(0deg);">
-                <div class="segment-label">Мать Плюми</div>
-            </div>
-            <div class="segment" style="transform: rotate(180deg);">
-                <div class="segment-label">Батя Плюми</div>
-            </div>
+            <div class="segment-label" style="transform: translate(-50%, -50%) rotate(0deg);">Мать Плюми</div>
+            <div class="segment-label" style="transform: translate(-50%, -50%) rotate(180deg);">Батя Плюми</div>
         </div>
         <button id="spinButton" onclick="spinWheel()">SPIN</button>
         <p id="result"></p>
