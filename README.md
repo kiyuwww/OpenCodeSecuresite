@@ -39,7 +39,6 @@
             position: absolute;
             top: 50%;
             left: 50%;
-            transform: translate(-50%, -50%);
             font-size: 22px;
             font-weight: bold;
             text-shadow: 0 0 5px rgba(0, 0, 0, 0.7);
@@ -47,11 +46,11 @@
         }
 
         .mother {
-            transform: translate(-50%, -50%) rotate(90deg);
+            transform: translate(-100%, -150%) rotate(-90deg);
         }
 
         .father {
-            transform: translate(-50%, -50%) rotate(270deg);
+            transform: translate(50%, -50%) rotate(90deg);
         }
 
         /* Добавляем стрелку */
