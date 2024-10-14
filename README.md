@@ -3,136 +3,163 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Рулетка Плюми</title>
+    <meta name="description" content="Продажа квартир в вашем городе. Выберите жилье своей мечты!">
+    <title>Продажа Квартир</title>
     <style>
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
+            font-family: Arial, sans-serif;
             margin: 0;
-            background: #1c1c1c;
-            color: white;
+            padding: 0;
+            background-color: #f8f9fa;
         }
-
-        .wheel-container {
+        header {
+            background-color: #007bff;
+            color: white;
+            padding: 15px 0;
             text-align: center;
-            position: relative;
         }
-
-        .wheel {
-            width: 300px;
-            height: 300px;
-            border-radius: 50%;
-            border: 8px solid #333;
-            box-shadow: 0 0 15px rgba(255, 255, 255, 0.2);
-            background: conic-gradient(
-                #ff6363 0 50%, 
-                #1e90ff 50% 100%
-            );
-            position: relative;
-            transition: transform 4s ease-out;
+        header h1 {
+            margin: 0;
         }
-
-        .segment-label {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            font-size: 22px;
-            font-weight: bold;
-            text-shadow: 0 0 5px rgba(0, 0, 0, 0.7);
+        nav {
+            display: flex;
+            justify-content: space-around;
+            background-color: #343a40;
+            padding: 10px 0;
+        }
+        nav a {
+            color: white;
+            text-decoration: none;
+            padding: 10px;
+        }
+        nav a:hover {
+            background-color: #007bff;
+        }
+        .hero {
+            text-align: center;
+            padding: 50px;
+            background: url('your-image-url.jpg') no-repeat center center/cover;
             color: white;
         }
-
-        .mother {
-            transform: translate(-100%, -150%) rotate(-90deg);
+        .hero h2 {
+            font-size: 3em;
         }
-
-        .father {
-            transform: translate(50%, -50%) rotate(90deg);
+        .filter {
+            padding: 20px;
+            background-color: #e9ecef;
+            text-align: center;
         }
-
-        /* Добавляем стрелку */
-        .arrow {
-            width: 0; 
-            height: 0; 
-            border-left: 20px solid transparent;
-            border-right: 20px solid transparent;
-            border-bottom: 30px solid #ffbf00;
-            position: absolute;
-            top: -40px;
-            left: 50%;
-            transform: translateX(-50%);
+        .filter input, .filter select {
+            padding: 10px;
+            margin: 10px;
+            width: 200px;
         }
-
-        button {
-            padding: 12px 30px;
-            font-size: 18px;
-            font-weight: bold;
-            background-color: #ffbf00;
-            color: #1c1c1c;
-            border: none;
-            border-radius: 30px;
-            cursor: pointer;
-            transition: background-color 0.3s;
-            margin-top: 20px;
-            box-shadow: 0 0 15px rgba(255, 191, 0, 0.5);
+        .apartment-list {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            padding: 20px;
         }
-
-        button:hover {
-            background-color: #ffa500;
+        .apartment {
+            background-color: white;
+            width: 30%;
+            margin: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         }
-
-        button:disabled {
-            background-color: #4d4d4d;
-            cursor: not-allowed;
+        .apartment img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
         }
-
-        #result {
-            font-size: 24px;
-            margin-top: 20px;
-            font-weight: bold;
+        .apartment-info {
+            padding: 15px;
+        }
+        .apartment-info h3 {
+            margin: 0;
+        }
+        .apartment-info p {
+            color: #6c757d;
+        }
+        footer {
+            background-color: #343a40;
+            color: white;
+            text-align: center;
+            padding: 20px;
+        }
+        footer a {
+            color: #007bff;
+            text-decoration: none;
+        }
+        footer a:hover {
+            text-decoration: underline;
         }
     </style>
 </head>
 <body>
 
-    <div class="wheel-container">
-        <div class="arrow"></div>
-        <div id="wheel" class="wheel">
-            <div class="segment-label mother">Мать Плюми</div>
-            <div class="segment-label father">Батя Плюми</div>
+    <header>
+        <h1>Продажа Квартир</h1>
+    </header>
+
+    <nav>
+        <a href="#">Главная</a>
+        <a href="#">Каталог квартир</a>
+        <a href="#">О компании</a>
+        <a href="#">Контакты</a>
+    </nav>
+
+    <section class="hero">
+        <h2>Найдите квартиру своей мечты</h2>
+        <p>Лучшие предложения на рынке недвижимости</p>
+    </section>
+
+    <section class="filter">
+        <h3>Фильтр поиска</h3>
+        <input type="text" placeholder="Город">
+        <input type="number" placeholder="Цена от">
+        <input type="number" placeholder="Цена до">
+        <select>
+            <option value="">Количество комнат</option>
+            <option value="1">1 комната</option>
+            <option value="2">2 комнаты</option>
+            <option value="3">3 комнаты</option>
+        </select>
+        <button>Поиск</button>
+    </section>
+
+    <section class="apartment-list">
+        <div class="apartment">
+            <img src="apartment1.jpg" alt="Квартира 1">
+            <div class="apartment-info">
+                <h3>Квартира в центре</h3>
+                <p>Цена: 5,000,000 ₽</p>
+                <p>3 комнаты, 120 м²</p>
+            </div>
         </div>
-        <button id="spinButton" onclick="spinWheel()">SPIN</button>
-        <p id="result"></p>
-    </div>
 
-    <script>
-        function spinWheel() {
-            const wheel = document.getElementById('wheel');
-            const button = document.getElementById('spinButton');
-            const result = document.getElementById('result');
-            const segments = ["Мать Плюми", "Батя Плюми"];
-            
-            // Отключаем кнопку, пока крутится колесо
-            button.disabled = true;
-            result.textContent = "";
+        <div class="apartment">
+            <img src="apartment2.jpg" alt="Квартира 2">
+            <div class="apartment-info">
+                <h3>Квартира у парка</h3>
+                <p>Цена: 3,500,000 ₽</p>
+                <p>2 комнаты, 85 м²</p>
+            </div>
+        </div>
 
-            const randomDeg = Math.floor(Math.random() * 3600) + 360; // Случайное количество градусов
-            wheel.style.transition = 'transform 4s ease-out';
-            wheel.style.transform = `rotate(${randomDeg}deg)`;
+        <div class="apartment">
+            <img src="apartment3.jpg" alt="Квартира 3">
+            <div class="apartment-info">
+                <h3>Элитная квартира</h3>
+                <p>Цена: 12,000,000 ₽</p>
+                <p>4 комнаты, 200 м²</p>
+            </div>
+        </div>
+    </section>
 
-            setTimeout(() => {
-                // Определяем результат
-                const selectedSegment = randomDeg % 360 < 180 ? segments[0] : segments[1];
-                result.textContent = `Вы выбили: ${selectedSegment}`;
-
-                // Возвращаем кнопку в активное состояние
-                button.disabled = false;
-            }, 4000);
-        }
-    </script>
+    <footer>
+        <p>&copy; 2024 Продажа Квартир. Все права защищены.</p>
+        <p><a href="mailto:info@example.com">Свяжитесь с нами</a></p>
+    </footer>
 
 </body>
 </html>
