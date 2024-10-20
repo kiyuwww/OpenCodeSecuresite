@@ -3,117 +3,72 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ChatGPT Web Interface</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
-            background-color: #f4f4f4;
-        }
-        #chat-container {
-            background-color: white;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
-            max-width: 500px;
-            width: 100%;
-        }
-        #messages {
-            height: 300px;
-            overflow-y: auto;
-            margin-bottom: 10px;
-            border: 1px solid #ccc;
-            padding: 10px;
-            border-radius: 5px;
-            background-color: #fafafa;
-        }
-        .message {
-            margin: 10px 0;
-        }
-        .message.user {
-            text-align: right;
-        }
-        input[type="text"], button {
-            padding: 10px;
-            font-size: 16px;
-            border-radius: 5px;
-        }
-        input[type="text"] {
-            width: 75%;
-            border: 1px solid #ccc;
-        }
-        button {
-            width: 20%;
-            border: none;
-            background-color: #007BFF;
-            color: white;
-            cursor: pointer;
-        }
-    </style>
+    <title>OpenSourceBrowser</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <div id="chat-container">
-        <div id="messages"></div>
-        <input type="text" id="user-input" placeholder="Type your message here...">
-        <button id="send-btn">Send</button>
+    <div class="browser">
+        <div class="browser-header">
+            <input type="text" id="url-bar" placeholder="Enter URL...">
+            <button id="go-btn">Go</button>
+        </div>
+        <iframe id="browser-frame" src="https://www.mozilla.org" frameborder="0"></iframe>
     </div>
 
-    <script>
-        const messagesDiv = document.getElementById('messages');
-        const userInput = document.getElementById('user-input');
-        const sendBtn = document.getElementById('send-btn');
-
-        // Function to display messages in the chat
-        function displayMessage(message, sender) {
-            const messageDiv = document.createElement('div');
-            messageDiv.classList.add('message', sender);
-            messageDiv.textContent = message;
-            messagesDiv.appendChild(messageDiv);
-            messagesDiv.scrollTop = messagesDiv.scrollHeight; // Scroll to bottom
-        }
-
-        // Function to handle sending the message
-        async function sendMessage() {
-            const userMessage = userInput.value.trim();
-            if (!userMessage) return;
-
-            displayMessage(userMessage, 'user'); // Display user message
-
-            // Clear input
-            userInput.value = '';
-
-            // Call ChatGPT API (replace this with your actual API call)
-            try {
-                const response = await fetch('https://api.openai.com/v1/chat/completions', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': `Bearer YOUR_API_KEY` // replace with your API key
-                    },
-                    body: JSON.stringify({
-                        model: "gpt-3.5-turbo",
-                        messages: [{ role: "user", content: userMessage }]
-                    })
-                });
-
-                const data = await response.json();
-                const botMessage = data.choices[0].message.content;
-                displayMessage(botMessage, 'bot'); // Display bot response
-            } catch (error) {
-                displayMessage("Error: Unable to connect to ChatGPT.", 'bot');
-            }
-        }
-
-        sendBtn.addEventListener('click', sendMessage);
-
-        // Send message on Enter key press
-        userInput.addEventListener('keydown', (e) => {
-            if (e.key === 'Enter') sendMessage();
-        });
-    </script>
+    <script src="main.js"></script>
 </body>
 </html>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f5f5f5;
+}
+
+.browser {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+}
+
+.browser-header {
+    display: flex;
+    justify-content: space-between;
+    background-color: #282c34;
+    padding: 10px;
+}
+
+#url-bar {
+    flex: 1;
+    padding: 8px;
+    font-size: 16px;
+    border: none;
+    outline: none;
+    color: #282c34;
+    border-radius: 4px;
+}
+
+#go-btn {
+    padding: 8px 16px;
+    margin-left: 10px;
+    background-color: #61dafb;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+#browser-frame {
+    flex: 1;
+    width: 100%;
+    border: none;
+}
+document.getElementById('go-btn').addEventListener('click', function() {
+    const urlBar = document.getElementById('url-bar');
+    const browserFrame = document.getElementById('browser-frame');
+    const url = urlBar.value.startsWith('http') ? urlBar.value : `https://${urlBar.value}`;
+    browserFrame.src = url;
+});
