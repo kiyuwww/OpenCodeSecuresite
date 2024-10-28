@@ -1,105 +1,83 @@
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Winzly's Gaming Setup</title>
+    <title>Winzly's Social Networks</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
+        /* Reset default margins and paddings */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        /* Body styling */
         body {
             display: flex;
-            align-items: center;
             justify-content: center;
+            align-items: center;
             height: 100vh;
-            margin: 0;
-            background-color: #1e1e1e;
-            color: white;
+            background-color: #121212;
             font-family: Arial, sans-serif;
-            overflow: hidden;
+            color: #fff;
         }
+
+        /* Container styling */
         .container {
             text-align: center;
-            position: relative;
-            z-index: 10;
+            padding: 20px;
         }
-        h1 {
-            font-size: 2em;
-            margin-bottom: 0.2em;
-        }
-        p {
-            font-size: 1em;
-            margin-bottom: 1em;
-            color: #cccccc;
-        }
+
+        /* Social links styling */
         .social-links {
-            display: flex;
-            gap: 10px;
-            justify-content: center;
-            margin-bottom: 1.5em;
+            margin-top: 20px;
         }
+
         .social-links a {
+            color: #fff;
             text-decoration: none;
-            color: white;
-            padding: 8px 15px;
-            border-radius: 5px;
-            background-color: #333;
-            display: flex;
-            align-items: center;
-            font-size: 1em;
-            transition: background-color 0.3s;
+            font-size: 3rem;
+            margin: 0 15px;
+            transition: transform 0.3s ease;
         }
+
         .social-links a:hover {
-            background-color: #555;
+            transform: scale(1.2);
+            color: #00acee; /* You can adjust hover color */
         }
-        .toggle-theme {
+
+        /* Support button styling */
+        .support-button {
             position: absolute;
             top: 20px;
             right: 20px;
-            background-color: #333;
-            color: white;
-            padding: 5px 10px;
+            background-color: #1e90ff;
+            color: #fff;
+            padding: 10px 20px;
+            font-size: 1rem;
+            font-weight: bold;
             border: none;
-            cursor: pointer;
             border-radius: 5px;
-            font-size: 0.9em;
+            cursor: pointer;
+            text-decoration: none;
+            transition: background-color 0.3s;
         }
-        .site-link {
-            margin-top: 1em;
-            font-size: 0.9em;
-            color: #777;
-        }
-        /* Черная дыра */
-        .black-hole {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            width: 200px;
-            height: 200px;
-            margin-top: -100px;
-            margin-left: -100px;
-            border-radius: 50%;
-            background: conic-gradient(from 0deg, #000, #333, #000, #111);
-            animation: spin 5s linear infinite;
-            z-index: 1;
-            filter: blur(2px);
-        }
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
+
+        .support-button:hover {
+            background-color: #0f78d1;
         }
     </style>
 </head>
 <body>
-    <button class="toggle-theme">Toggle Theme</button>
     <div class="container">
-        <h1>Welcome to Winzly's Gaming Setup</h1>
-        <p>Explore my gaming settings and connect with me on social media!</p>
+        <h1>Connect with Winzly</h1>
         <div class="social-links">
-            <a href="https://www.twitch.tv/winzly_">Twitch</a>
-            <a href="https://www.youtube.com">YouTube</a>
-            <a href="https://dsc.gg/winzly">Discord</a>
-            <a href="https://store.steampowered.com">Steam</a>
+            <a href="https://www.twitch.tv/winzly_" target="_blank" aria-label="Twitch"><i class="fab fa-twitch"></i></a>
+            <a href="https://dsc.gg/winzly" target="_blank" aria-label="Discord"><i class="fab fa-discord"></i></a>
         </div>
-        <div class="site-link">winzlysite.io</div>
     </div>
-    <div class="black-hole"></div>
+    <a href="https://dsc.gg/winzly" target="_blank" class="support-button">Support</a>
 </body>
 </html>
