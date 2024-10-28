@@ -8,7 +8,7 @@
             background-color: black;
             color: white;
             display: flex;
-            justify-content: flex-start;
+            justify-content: center;
             align-items: center;
             height: 100vh;
             flex-direction: column;
