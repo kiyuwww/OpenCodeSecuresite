@@ -13,9 +13,12 @@
             background-color: #1e1e1e;
             color: white;
             font-family: Arial, sans-serif;
+            overflow: hidden;
         }
         .container {
             text-align: center;
+            position: relative;
+            z-index: 10;
         }
         h1 {
             font-size: 2em;
@@ -63,6 +66,25 @@
             font-size: 0.9em;
             color: #777;
         }
+        /* Черная дыра */
+        .black-hole {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 200px;
+            height: 200px;
+            margin-top: -100px;
+            margin-left: -100px;
+            border-radius: 50%;
+            background: conic-gradient(from 0deg, #000, #333, #000, #111);
+            animation: spin 5s linear infinite;
+            z-index: 1;
+            filter: blur(2px);
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
     </style>
 </head>
 <body>
@@ -78,5 +100,6 @@
         </div>
         <div class="site-link">winzlysite.io</div>
     </div>
+    <div class="black-hole"></div>
 </body>
 </html>
