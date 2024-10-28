@@ -1,4 +1,3 @@
-<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -24,30 +23,28 @@
         }
         p {
             font-size: 1em;
-            margin-bottom: 1.5em;
+            margin-bottom: 1em;
             color: #cccccc;
         }
         .social-links {
             display: flex;
             gap: 10px;
             justify-content: center;
+            margin-bottom: 1.5em;
         }
         .social-links a {
             text-decoration: none;
             color: white;
-            padding: 10px 15px;
+            padding: 8px 15px;
             border-radius: 5px;
             background-color: #333;
             display: flex;
             align-items: center;
+            font-size: 1em;
+            transition: background-color 0.3s;
         }
         .social-links a:hover {
             background-color: #555;
-        }
-        .social-links a img {
-            width: 20px;
-            height: 20px;
-            margin-right: 5px;
         }
         .toggle-theme {
             position: absolute;
@@ -59,6 +56,12 @@
             border: none;
             cursor: pointer;
             border-radius: 5px;
+            font-size: 0.9em;
+        }
+        .site-link {
+            margin-top: 1em;
+            font-size: 0.9em;
+            color: #777;
         }
     </style>
 </head>
@@ -68,11 +71,12 @@
         <h1>Welcome to Winzly's Gaming Setup</h1>
         <p>Explore my gaming settings and connect with me on social media!</p>
         <div class="social-links">
-            <a href="https://www.twitch.tv/winzly_"><img src="twitch_icon.png" alt="Twitch"> Twitch</a>
-            <a href="https://www.youtube.com"><img src="youtube_icon.png" alt="YouTube"> YouTube</a>
-            <a href="https://dsc.gg/winzly"><img src="discord_icon.png" alt="Discord"> Discord</a>
-            <a href="https://store.steampowered.com"><img src="steam_icon.png" alt="Steam"> Steam</a>
+            <a href="https://www.twitch.tv/winzly_">Twitch</a>
+            <a href="https://www.youtube.com">YouTube</a>
+            <a href="https://dsc.gg/winzly">Discord</a>
+            <a href="https://store.steampowered.com">Steam</a>
         </div>
+        <div class="site-link">winzlysite.io</div>
     </div>
 </body>
 </html>
