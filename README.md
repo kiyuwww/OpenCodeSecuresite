@@ -46,12 +46,12 @@
             text-decoration: none;
             font-size: 3rem;
             margin: 0 15px;
-            transition: transform 0.3s ease;
+            transition: transform 0.3s ease, color 0.3s;
         }
 
         .social-links a:hover {
             transform: scale(1.2);
-            color: #00acee;
+            color: #000; /* Change color to black on hover */
         }
 
         /* Support button styling */
