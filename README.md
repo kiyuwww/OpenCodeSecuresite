@@ -2,129 +2,105 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Winzly's Social Networks</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <title>Winzly's Gaming Setup</title>
     <style>
-        /* Reset default margins and paddings */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        /* Body styling */
         body {
             display: flex;
-            justify-content: center;
             align-items: center;
+            justify-content: center;
             height: 100vh;
-            background-color: #121212;
+            margin: 0;
+            background-color: #1e1e1e;
+            color: white;
             font-family: Arial, sans-serif;
-            color: #fff;
+            overflow: hidden;
         }
-        /* Container styling */
         .container {
             text-align: center;
-            padding: 20px;
-            opacity: 0;
-            transform: translateY(-50px);
-            animation: slideIn 1s forwards;
+            position: relative;
+            z-index: 10;
         }
-        /* Social links styling */
+        h1 {
+            font-size: 2em;
+            margin-bottom: 0.2em;
+        }
+        p {
+            font-size: 1em;
+            margin-bottom: 1em;
+            color: #cccccc;
+        }
         .social-links {
-            margin-top: 20px;
-            opacity: 0;
-            transform: translateX(-50px);
-            animation: slideInIcons 1s 0.5s forwards;
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            margin-bottom: 1.5em;
         }
         .social-links a {
-            color: #fff;
             text-decoration: none;
-            font-size: 3rem;
-            margin: 0 15px;
-            transition: transform 0.3s ease, color 0.3s;
+            color: white;
+            padding: 8px 15px;
+            border-radius: 5px;
+            background-color: #333;
+            display: flex;
+            align-items: center;
+            font-size: 1em;
+            transition: background-color 0.3s;
         }
         .social-links a:hover {
-            transform: scale(1.2);
-            color: #000; /* Change color to black on hover */
+            background-color: #555;
         }
-        /* Support button styling */
-        .support-button {
+        .toggle-theme {
             position: absolute;
             top: 20px;
             right: 20px;
-            background-color: #1e90ff;
-            color: #fff;
-            padding: 10px 20px;
-            font-size: 1rem;
-            font-weight: bold;
+            background-color: #333;
+            color: white;
+            padding: 5px 10px;
             border: none;
-            border-radius: 5px;
             cursor: pointer;
-            transition: background-color 0.3s;
-        }
-        .support-button:hover {
-            background-color: #0f78d1;
-        }
-        /* Copy success message styling */
-        .copy-message {
-            position: absolute;
-            top: 60px;
-            right: 20px;
-            background-color: #4CAF50;
-            color: #fff;
-            padding: 10px;
             border-radius: 5px;
-            font-size: 0.9rem;
-            opacity: 0;
-            transform: translateX(100%);
-            transition: opacity 0.3s ease, transform 0.3s ease;
+            font-size: 0.9em;
         }
-        .copy-message.show {
-            opacity: 1;
-            transform: translateX(0);
+        .site-link {
+            margin-top: 1em;
+            font-size: 0.9em;
+            color: #cccccc; /* Заменили цвет на светло-серый */
+            text-decoration: none; /* Убрали подчеркивание */
         }
-        /* Keyframes for slide-in animations */
-        @keyframes slideIn {
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+        /* Черная дыра */
+        .black-hole {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 200px;
+            height: 200px;
+            margin-top: -100px;
+            margin-left: -100px;
+            border-radius: 50%;
+            background: conic-gradient(from 0deg, #000, #333, #000, #111);
+            animation: spin 5s linear infinite;
+            z-index: 1;
+            filter: blur(2px);
         }
-        @keyframes slideInIcons {
-            to {
-                opacity: 1;
-                transform: translateX(0);
-            }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
         }
     </style>
 </head>
 <body>
+    <button class="toggle-theme">Toggle Theme</button>
     <div class="container">
-        <h1>MY BIO</h1>
+        <h1>Welcome to Winzly's Gaming Setup</h1>
+        <p>Explore my gaming settings and connect with me on social media!</p>
         <div class="social-links">
-            <a href="https://www.twitch.tv/winzly_" target="_blank" aria-label="Twitch">
-                <i class="fab fa-twitch"></i>
-            </a>
-            <a href="https://dsc.gg/winzly" target="_blank" aria-label="Discord">
-                <i class="fab fa-discord"></i>
-            </a>
+            <a href="https://www.twitch.tv/winzly_">Twitch</a>
+            <a href="https://www.youtube.com">YouTube</a>
+            <a href="https://dsc.gg/winzly">Discord</a>
+            <a href="https://store.steampowered.com">Steam</a>
         </div>
+        <div class="site-link">winzlysite.io</div> <!-- Убрали лишние полоски и синий цвет -->
     </div>
-    <button class="support-button" onclick="copyDiscordNickname()">Support</button>
-    <div class="copy-message" id="copyMessage">Copied .winzly to clipboard!</div>
-    <script>
-        function copyDiscordNickname() {
-            const nickname = '.winzly';
-            navigator.clipboard.writeText(nickname).then(() => {
-                const message = document.getElementById('copyMessage');
-                message.classList.add('show');
-                setTimeout(() => {
-                    message.classList.remove('show');
-                }, 2000); // Show message for 2 seconds
-            }).catch(err => {
-                console.error('Could not copy text: ', err);
-            });
-        }
-    </script>
+    <div class="black-hole"></div>
 </body>
 </html>
