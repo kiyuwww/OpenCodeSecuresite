@@ -1,106 +1,97 @@
-<html lang="en">
+<!DOCTYPE html>
+<html lang="ru">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Winzly's Gaming Setup</title>
+    <title>Тёмный сайт</title>
     <style>
+        /* Сброс стандартных отступов */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        /* Основные стили для фона и текста */
         body {
+            background-color: #0d0d0d; /* Черный фон */
+            color: #f0f0f0; /* Светлый текст */
+            font-family: Arial, sans-serif;
             display: flex;
-            align-items: center;
             justify-content: center;
+            align-items: center;
             height: 100vh;
             margin: 0;
-            background-color: #1e1e1e;
-            color: white;
-            font-family: Arial, sans-serif;
-            overflow: hidden;
         }
+
+        /* Контейнер для основного содержимого */
         .container {
+            width: 80%;
+            max-width: 900px;
             text-align: center;
-            position: relative;
-            z-index: 10;
+            padding: 20px;
+            background: #1a1a1a; /* Тёмный серый фон контейнера */
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5); /* Тень */
         }
-        h1 {
-            font-size: 2em;
-            margin-bottom: 0.2em;
+
+        /* Стили для заголовка */
+        header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
         }
-        p {
-            font-size: 1em;
-            margin-bottom: 1em;
-            color: #cccccc;
+
+        header p {
+            font-size: 1.2em;
+            color: #b3b3b3;
         }
-        .social-links {
-            display: flex;
-            gap: 10px;
-            justify-content: center;
-            margin-bottom: 1.5em;
+
+        /* Основной контент */
+        main {
+            margin: 20px 0;
         }
-        .social-links a {
-            text-decoration: none;
-            color: white;
-            padding: 8px 15px;
-            border-radius: 5px;
-            background-color: #333;
-            display: flex;
-            align-items: center;
-            font-size: 1em;
-            transition: background-color 0.3s;
+
+        section {
+            margin-bottom: 20px;
         }
-        .social-links a:hover {
-            background-color: #555;
+
+        h2 {
+            font-size: 1.8em;
+            color: #e0e0e0;
+            margin-bottom: 10px;
         }
-        .toggle-theme {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            background-color: #333;
-            color: white;
-            padding: 5px 10px;
-            border: none;
-            cursor: pointer;
-            border-radius: 5px;
+
+        /* Подвал */
+        footer {
+            margin-top: 20px;
+            color: #666666;
             font-size: 0.9em;
         }
-        .site-link {
-            margin-top: 1em;
-            font-size: 0.9em;
-            color: #cccccc; /* Заменили цвет на светло-серый */
-            text-decoration: none; /* Убрали подчеркивание */
-        }
-        /* Черная дыра */
-        .black-hole {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            width: 200px;
-            height: 200px;
-            margin-top: -100px;
-            margin-left: -100px;
-            border-radius: 50%;
-            background: conic-gradient(from 0deg, #000, #333, #000, #111);
-            animation: spin 5s linear infinite;
-            z-index: 1;
-            filter: blur(2px);
-        }
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
+
+        footer p {
+            color: #999999;
         }
     </style>
 </head>
 <body>
-    <button class="toggle-theme">Toggle Theme</button>
     <div class="container">
-        <h1>Welcome to Winzly's Gaming Setup</h1>
-        <p>Explore my gaming settings and connect with me on social media!</p>
-        <div class="social-links">
-            <a href="https://www.twitch.tv/winzly_">Twitch</a>
-            <a href="https://www.youtube.com">YouTube</a>
-            <a href="https://dsc.gg/winzly">Discord</a>
-            <a href="https://store.steampowered.com">Steam</a>
-        </div>
-        <div class="site-link">winzlysite.io</div> <!-- Убрали лишние полоски и синий цвет -->
+        <header>
+            <h1>Добро пожаловать на мой сайт</h1>
+            <p>Тёмный дизайн и стиль</p>
+        </header>
+        <main>
+            <section class="content">
+                <h2>О нас</h2>
+                <p>Здесь можно добавить описание вашей компании или проекта.</p>
+            </section>
+            <section class="services">
+                <h2>Услуги</h2>
+                <p>Описание услуг или продуктов, которые вы предлагаете.</p>
+            </section>
+        </main>
+        <footer>
+            <p>&copy; 2024 Ваш сайт. Все права защищены.</p>
+        </footer>
     </div>
-    <div class="black-hole"></div>
 </body>
 </html>
