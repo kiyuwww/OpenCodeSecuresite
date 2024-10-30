@@ -25,23 +25,29 @@
       border: 2px solid #fff;
       border-radius: 15px;
       transition: all 0.5s ease;
-      animation: fadeIn 1s ease-in-out;
+      animation: slideUp 1s ease-in-out;
     }
 
-    /* Иконки и их анимация */
+    /* Иконки и их стили */
     .icon {
       width: 50px;
       height: 50px;
       background-size: cover;
-      transition: 0.3s;
+      transition: transform 0.3s, background-color 0.3s;
       cursor: pointer;
-      filter: grayscale(1);
+      background-color: #fff;
+      border-radius: 10px;
     }
 
     .icon:hover {
-      filter: grayscale(0);
       background-color: #000;
-      border-radius: 10px;
+      transform: scale(1.1);
+    }
+
+    /* Анимация появления иконок снизу */
+    @keyframes slideUp {
+      from { transform: translateY(50px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
     }
 
     /* Стиль для кнопки Support */
@@ -58,12 +64,6 @@
 
     .support-btn:hover {
       background-color: #333;
-    }
-
-    /* Анимация появления иконок */
-    @keyframes fadeIn {
-      from { transform: scale(0.8); opacity: 0; }
-      to { transform: scale(1); opacity: 1; }
     }
 
     /* Стиль для уведомления о копировании */
@@ -94,13 +94,13 @@
   <!-- Контейнер для иконок -->
   <div class="icon-container">
     <a href="https://www.twitch.tv/winzly_" target="_blank">
-      <div class="icon" style="background-image: url('https://img.icons8.com/ios-filled/50/ffffff/twitch.png');"></div>
+      <div class="icon" style="background-image: url('https://img.icons8.com/ios-filled/50/000000/twitch.png');"></div>
     </a>
     <a href="https://dsc.gg/winzly" target="_blank">
-      <div class="icon" style="background-image: url('https://img.icons8.com/ios-filled/50/ffffff/discord-logo.png');"></div>
+      <div class="icon" style="background-image: url('https://img.icons8.com/ios-filled/50/000000/discord-logo.png');"></div>
     </a>
     <a href="https://twitter.com/2winzly" target="_blank">
-      <div class="icon" style="background-image: url('https://img.icons8.com/ios-filled/50/ffffff/twitter.png');"></div>
+      <div class="icon" style="background-image: url('https://img.icons8.com/ios-filled/50/000000/twitter.png');"></div>
     </a>
   </div>
 
