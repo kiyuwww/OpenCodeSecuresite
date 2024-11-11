@@ -4,7 +4,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Winzly Support</title>
   <style>
-    /* Стили для фона и центрации элементов */
     body {
       background-color: #000;
       color: #fff;
@@ -14,9 +13,36 @@
       height: 100vh;
       margin: 0;
       font-family: Arial, sans-serif;
+      overflow: hidden;
     }
 
-    /* Контейнер для иконок */
+    .black-hole {
+      width: 100px;
+      height: 100px;
+      background: radial-gradient(circle, rgba(0,0,0,1) 0%, rgba(0,0,0,0) 70%);
+      border-radius: 50%;
+      position: absolute;
+      animation: moveBlackHole 10s linear infinite;
+    }
+
+    @keyframes moveBlackHole {
+      0% {
+        transform: translate(0, 0);
+      }
+      25% {
+        transform: translate(calc(100vw - 100px), 0);
+      }
+      50% {
+        transform: translate(calc(100vw - 100px), calc(100vh - 100px));
+      }
+      75% {
+        transform: translate(0, calc(100vh - 100px));
+      }
+      100% {
+        transform: translate(0, 0);
+      }
+    }
+
     .icon-container {
       display: flex;
       gap: 20px;
@@ -27,7 +53,6 @@
       animation: slideUp 1s ease-in-out;
     }
 
-    /* Иконки и их стили */
     .icon {
       width: 50px;
       height: 50px;
@@ -43,13 +68,11 @@
       transform: scale(1.1);
     }
 
-    /* Анимация появления иконок снизу */
     @keyframes slideUp {
       from { transform: translateY(50px); opacity: 0; }
       to { transform: translateY(0); opacity: 1); }
     }
 
-    /* Стиль для кнопки Support */
     .support-btn {
       position: absolute;
       top: 20px;
@@ -65,7 +88,6 @@
       background-color: #333;
     }
 
-    /* Стиль для уведомления о копировании */
     .notification {
       position: absolute;
       top: 20px;
@@ -87,10 +109,8 @@
 </head>
 <body>
 
-  <!-- Кнопка Support -->
   <div class="support-btn" onclick="copySupport()">Support</div>
 
-  <!-- Контейнер для иконок -->
   <div class="icon-container">
     <a href="https://www.twitch.tv/winzly_" target="_blank">
       <div class="icon" style="background-image: url('https://img.icons8.com/ios-filled/50/000000/twitch.png');"></div>
@@ -103,11 +123,11 @@
     </a>
   </div>
 
-  <!-- Уведомление о копировании -->
   <div class="notification" id="copyNotification">Текст скопирован</div>
 
+  <div class="black-hole"></div>
+
   <script>
-    // Функция копирования текста
     function copySupport() {
       navigator.clipboard.writeText('.winzly');
       const notification = document.getElementById('copyNotification');
