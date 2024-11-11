@@ -47,7 +47,7 @@
     /* Анимация появления иконок снизу */
     @keyframes slideUp {
       from { transform: translateY(50px); opacity: 0; }
-      to { transform: translateY(0); opacity: 1; }
+      to { transform: translateY(0); opacity: 1); }
     }
 
     /* Стиль для кнопки Support */
@@ -105,7 +105,7 @@
   </div>
 
   <!-- Уведомление о копировании -->
-  <div class="notification" id="copyNotification">Текст скопирован: .winzly</div>
+  <div class="notification" id="copyNotification">Текст скопирован</div>
 
   <script>
     // Функция копирования текста
