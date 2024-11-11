@@ -5,7 +5,7 @@
   <title>Winzly Support</title>
   <style>
     body {
-      background-color: #000;
+      background: #000; /* Фон по умолчанию */
       color: #fff;
       display: flex;
       justify-content: center;
@@ -14,11 +14,12 @@
       margin: 0;
       font-family: Arial, sans-serif;
       overflow: hidden;
+      position: relative;
     }
 
     .black-hole {
-      width: 100px;
-      height: 100px;
+      width: 200px;
+      height: 200px;
       background: radial-gradient(circle, rgba(0,0,0,1) 0%, rgba(0,0,0,0) 70%);
       border-radius: 50%;
       position: absolute;
@@ -30,13 +31,13 @@
         transform: translate(0, 0);
       }
       25% {
-        transform: translate(calc(100vw - 100px), 0);
+        transform: translate(calc(100vw - 200px), 0);
       }
       50% {
-        transform: translate(calc(100vw - 100px), calc(100vh - 100px));
+        transform: translate(calc(100vw - 200px), calc(100vh - 200px));
       }
       75% {
-        transform: translate(0, calc(100vh - 100px));
+        transform: translate(0, calc(100vh - 200px));
       }
       100% {
         transform: translate(0, 0);
@@ -51,6 +52,7 @@
       border-radius: 15px;
       transition: all 0.5s ease;
       animation: slideUp 1s ease-in-out;
+      z-index: 2; /* Иконки поверх фона */
     }
 
     .icon {
@@ -70,7 +72,7 @@
 
     @keyframes slideUp {
       from { transform: translateY(50px); opacity: 0; }
-      to { transform: translateY(0); opacity: 1); }
+      to { transform: translateY(0); opacity: 1; }
     }
 
     .support-btn {
@@ -82,6 +84,7 @@
       border-radius: 5px;
       cursor: pointer;
       transition: background-color 0.3s;
+      z-index: 2; /* Кнопка поверх фона */
     }
 
     .support-btn:hover {
@@ -99,6 +102,7 @@
       display: none;
       opacity: 0;
       transition: opacity 0.5s;
+      z-index: 2; /* Уведомление поверх фона */
     }
 
     .notification.show {
