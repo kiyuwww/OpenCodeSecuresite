@@ -1,102 +1,83 @@
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Support Button</title>
+    <title>Winzly Profile</title>
     <!-- Подключаем Font Awesome для иконок -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
-    <!-- Добавляем красивый шрифт из Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@700&display=swap" rel="stylesheet">
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
         body {
-            background-color: #000; /* Черный фон */
+            margin: 0;
             font-family: Arial, sans-serif;
-            color: #fff; /* Белый цвет текста */
             display: flex;
             justify-content: center;
             align-items: center;
-            flex-direction: column;
             height: 100vh;
+            background-color: #121212;
+            color: #fff;
             position: relative;
+            flex-direction: column;
+            text-align: center;
             overflow: hidden;
         }
 
-        /* Центрированный текст */
-        .center-text {
-            font-size: 36px;
-            font-weight: bold;
-            color: #fff; /* Белый цвет текста */
-            position: absolute;
-            top: 35%; /* Текст выше */
-            left: 50%;
-            transform: translateX(-50%);
-            font-family: 'Roboto Slab', serif;
-            text-align: center;
-            z-index: 1;
-            transition: all 0.5s ease-out; /* Анимация для подъема */
+        .container {
+            max-width: 800px;
+            width: 100%;
+            padding: 20px;
+            opacity: 0;
+            animation: fadeIn 0.7s forwards 0.2s;
         }
 
-        /* Кнопка Support в правом верхнем углу */
-        .support-btn {
-            background-color: #fff; /* Белый фон */
-            border: 2px solid #333; /* Черная рамка */
-            color: #333; /* Черный текст */
+        @keyframes fadeIn {
+            0% {
+                opacity: 0;
+            }
+            100% {
+                opacity: 1;
+            }
+        }
+
+        .welcome-message h1 {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            animation: slideIn 0.7s ease-out forwards;
+        }
+
+        @keyframes slideIn {
+            0% {
+                transform: translateX(100%);
+            }
+            100% {
+                transform: translateX(0);
+            }
+        }
+
+        .sub-message {
+            font-size: 1.5rem;
+            margin-bottom: 30px;
+            animation: slideIn 1s ease-out forwards;
+        }
+
+        .discord-button {
+            background-color: #5865F2;
+            color: #fff;
+            border: none;
             padding: 10px 20px;
-            font-size: 16px;
+            font-size: 1rem;
+            border-radius: 5px;
             cursor: pointer;
             position: absolute;
             top: 20px;
             right: 20px;
-            font-weight: bold; /* Жирный шрифт */
-            transition: all 0.3s ease;
-        }
-
-        .support-btn:hover {
-            background-color: #333; /* Черный фон при наведении */
-            color: #fff; /* Белый текст при наведении */
-        }
-
-        /* Сообщение об успешном копировании */
-        .copy-message {
-            display: none;
-            color: #fff;
-            margin-top: 20px;
-            font-size: 18px;
-            font-weight: bold;
-            animation: fadeIn 2s ease-out;
-            text-align: center;
-        }
-
-        @keyframes fadeIn {
-            0% { opacity: 0; }
-            100% { opacity: 1; }
-        }
-
-        /* Стиль для иконок социальных сетей */
-        .social-icons {
-            margin-top: 40px;
-            display: flex;
-            justify-content: center;
-            gap: 20px;
             opacity: 0;
-            animation: slideUp 1s forwards;
-            padding: 10px;
-            border: 2px solid #ccc;
-            border-radius: 8px;
-            background-color: #222; /* Темный фон для блока с иконками */
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            animation: slideInButton 1s ease-out forwards;
         }
 
-        @keyframes slideUp {
+        @keyframes slideInButton {
             0% {
-                transform: translateY(50px);
-                opacity: 0;
+                transform: translateY(50%);
             }
             100% {
                 transform: translateY(0);
@@ -104,59 +85,129 @@
             }
         }
 
-        .social-icons a {
-            color: #fff; /* Белый цвет иконок */
-            font-size: 24px;
-            text-decoration: none;
-            transition: color 0.3s, background-color 0.3s;
-            padding: 8px;
-            border-radius: 50%;
+        .notification {
+            position: absolute;
+            top: 70px;
+            right: 20px;
+            background-color: #333;
+            color: #fff;
+            padding: 10px 20px;
+            border-radius: 5px;
+            opacity: 0;
+            transition: opacity 0.3s ease;
         }
 
-        .social-icons a:hover {
-            color: #000; /* Черный цвет текста при наведении */
-            background-color: #fff; /* Белый фон при наведении */
+        .notification.visible {
+            opacity: 1;
+        }
+
+        .notification.hidden {
+            opacity: 0;
+        }
+
+        /* Стиль для блока социальных сетей */
+        .social-links-container {
+            margin-top: 40px;
+            animation: slideInIcons 1.5s ease-out forwards;
+        }
+
+        @keyframes slideInIcons {
+            0% {
+                transform: translateY(100%);
+            }
+            100% {
+                transform: translateY(0);
+            }
+        }
+
+        .social-links {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .social-item {
+            display: flex;
+            align-items: center;
+            background-color: #1f1f1f;
+            border: 2px solid #fff;
+            padding: 10px 20px;
+            border-radius: 10px;
+            margin: 10px;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+            max-width: 300px;
+        }
+
+        .social-item:hover {
+            background-color: #5865F2;
+            transform: scale(1.05);
+        }
+
+        .social-item i {
+            font-size: 2.5rem;
+            margin-right: 15px; /* Отступ между иконкой и текстом */
+        }
+
+        .social-item p {
+            font-size: 1.2rem;
+            color: #fff;
+            margin: 0;
+        }
+
+        .social-links-container h2 {
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+            color: #fff;
+            font-weight: 600;
         }
 
     </style>
 </head>
 <body>
-    <!-- Центрированный текст -->
-    <div class="center-text" id="centerText">Winzly's setup</div>
-
-    <button id="supportButton" class="support-btn">Support</button>
-
     <div class="container">
-        <div id="copyMessage" class="copy-message">Discord has been copied!</div>
-    </div>
+        <div class="welcome-message">
+            <h1>Welcome to my Winzly profile</h1>
+        </div>
+        <div class="sub-message">
+            <p>Check out my gaming abilities, projects, and feel free to connect!</p>
+        </div>
+        <button class="discord-button" onclick="copyToClipboard()">Discord</button>
+        <div id="notification" class="notification hidden">Text ".winzly" copied!</div>
 
-    <div class="social-icons">
-        <a href="https://www.twitch.tv/winzly_" target="_blank" class="twitch"><i class="fab fa-twitch"></i></a>
-        <a href="https://dsc.gg/winzly" target="_blank" class="discord"><i class="fab fa-discord"></i></a>
-        <a href="https://twitter.com/winzly_" target="_blank" class="twitter"><i class="fab fa-twitter"></i></a>
+        <div class="social-links-container">
+            <h2>Social Networks</h2>
+            <div class="social-links">
+                <!-- Иконки социальных сетей с Font Awesome -->
+                <div class="social-item">
+                    <i class="fab fa-twitch"></i>
+                    <p>Twitch</p>
+                </div>
+                <div class="social-item">
+                    <i class="fab fa-steam"></i>
+                    <p>Steam</p>
+                </div>
+                <div class="social-item">
+                    <i class="fab fa-vk"></i>
+                    <p>VK</p>
+                </div>
+            </div>
+        </div>
     </div>
 
     <script>
-        document.getElementById("supportButton").addEventListener("click", function() {
-            const centerText = document.getElementById("centerText");
-            const message = document.getElementById("copyMessage");
+        function copyToClipboard() {
+            const textToCopy = ".winzly";
+            navigator.clipboard.writeText(textToCopy).then(() => {
+                const notification = document.getElementById("notification");
+                notification.classList.remove("hidden");
+                notification.classList.add("visible");
 
-            // Поднятие текста "Winzly's setup"
-            centerText.style.top = "10%"; // Двигаем текст вверх
-
-            // Показываем сообщение об успешном копировании
-            message.style.display = "block";
-
-            // Через 2 секунды скрываем сообщение
-            setTimeout(function() {
-                message.style.display = "none";
-            }, 2000);
-
-            // Возвращаем текст "Winzly's setup" обратно в исходное положение
-            setTimeout(function() {
-                centerText.style.top = "35%"; // Возвращаем текст на место
-            }, 2500);
-        });
+                setTimeout(() => {
+                    notification.classList.remove("visible");
+                    notification.classList.add("hidden");
+                }, 1500);
+            });
+        }
     </script>
 </body>
 </html>
