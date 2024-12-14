@@ -140,13 +140,14 @@
 
         /* Серый фон при наведении */
         .social-item:hover {
-            background-color: #808080; 
+            background-color: #808080;
             transform: scale(1.05);
         }
 
         .social-item i {
             font-size: 2.5rem;
             margin-right: 15px; /* Отступ между иконкой и текстом */
+            color: #fff; /* Иконки белого цвета */
         }
 
         .social-item p {
@@ -160,6 +161,22 @@
             margin-bottom: 20px;
             color: #fff;
             font-weight: 600;
+        }
+
+        /* Убираем стандартные стили ссылок */
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        /* При нажатии на иконку ссылку, меняем ее цвет на серый */
+        a:active .social-item {
+            background-color: #808080;
+        }
+
+        /* Убираем фиолетовый фон при клике */
+        a:focus {
+            outline: none;
         }
 
     </style>
@@ -178,19 +195,19 @@
         <div class="social-links-container">
             <h2>Social Networks</h2>
             <div class="social-links">
-                <!-- Иконки социальных сетей с Font Awesome -->
-                <div class="social-item">
+                <!-- Иконки социальных сетей с Font Awesome и ссылки -->
+                <a href="https://www.twitch.tv/winzly_" class="social-item" target="_blank">
                     <i class="fab fa-twitch"></i>
                     <p>Twitch</p>
-                </div>
-                <div class="social-item">
+                </a>
+                <a href="https://steamcommunity.com/profiles/76561199182980750/" class="social-item" target="_blank">
                     <i class="fab fa-steam"></i>
                     <p>Steam</p>
-                </div>
-                <div class="social-item">
+                </a>
+                <a href="https://vk.com/winzlyxgood" class="social-item" target="_blank">
                     <i class="fab fa-vk"></i>
                     <p>VK</p>
-                </div>
+                </a>
             </div>
         </div>
     </div>
