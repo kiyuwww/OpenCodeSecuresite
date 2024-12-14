@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -137,8 +138,9 @@
             max-width: 300px;
         }
 
+        /* Серый фон при наведении */
         .social-item:hover {
-            background-color: #5865F2;
+            background-color: #808080; 
             transform: scale(1.05);
         }
 
