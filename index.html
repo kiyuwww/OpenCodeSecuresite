@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <!-- Отключение масштабирования -->
+    <!-- Полное отключение масштабирования -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, maximum-scale=1.0, minimum-scale=1.0">
     <title>Winzly Profile</title>
     <!-- Подключаем Font Awesome для иконок -->
@@ -21,6 +21,11 @@
             flex-direction: column;
             text-align: center;
             overflow: hidden;
+            touch-action: none; /* Полное отключение жестов касания */
+        }
+
+        html, body {
+            overscroll-behavior: none; /* Отключение эффектов инерционной прокрутки */
         }
 
         .container {
@@ -175,43 +180,6 @@
         a:focus {
             outline: none;
         }
-
-        /* Стили для мобильных устройств */
-        @media screen and (max-width: 768px) {
-            body {
-                flex-direction: column;
-                padding: 10px;
-            }
-
-            .welcome-message h1 {
-                font-size: 2rem;
-            }
-
-            .sub-message {
-                font-size: 1.2rem;
-            }
-
-            .discord-button {
-                font-size: 0.9rem;
-                padding: 8px 16px;
-            }
-
-            .social-item {
-                flex-direction: column;
-                padding: 15px;
-                max-width: 100%;
-                text-align: center;
-            }
-
-            .social-item i {
-                margin-right: 0;
-                margin-bottom: 10px;
-            }
-
-            .social-item p {
-                font-size: 1rem;
-            }
-        }
     </style>
 </head>
 <body>
@@ -259,13 +227,10 @@
             });
         }
 
-        // Логика для определения устройства
-        document.addEventListener("DOMContentLoaded", () => {
-            const isMobile = /Mobi|Android/i.test(navigator.userAgent);
-            if (isMobile) {
-                document.body.style.backgroundColor = "#1c1c1c"; // Меняем фон для мобильных
-            }
-        });
+        // Отключаем масштабирование жестами и другими способами
+        document.addEventListener("gesturestart", (e) => e.preventDefault());
+        document.addEventListener("gesturechange", (e) => e.preventDefault());
+        document.addEventListener("gestureend", (e) => e.preventDefault());
     </script>
 </body>
 </html>
