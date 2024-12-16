@@ -105,7 +105,6 @@
             opacity: 0;
         }
 
-        /* Стиль для блока социальных сетей */
         .social-links-container {
             margin-top: 40px;
             animation: slideInIcons 1.5s ease-out forwards;
@@ -124,6 +123,7 @@
             display: flex;
             justify-content: center;
             align-items: center;
+            flex-wrap: wrap;
         }
 
         .social-item {
@@ -138,7 +138,6 @@
             max-width: 300px;
         }
 
-        /* Серый фон при наведении */
         .social-item:hover {
             background-color: #808080;
             transform: scale(1.05);
@@ -146,8 +145,8 @@
 
         .social-item i {
             font-size: 2.5rem;
-            margin-right: 15px; /* Отступ между иконкой и текстом */
-            color: #fff; /* Иконки белого цвета */
+            margin-right: 15px;
+            color: #fff;
         }
 
         .social-item p {
@@ -163,22 +162,55 @@
             font-weight: 600;
         }
 
-        /* Убираем стандартные стили ссылок */
         a {
             text-decoration: none;
             color: inherit;
         }
 
-        /* При нажатии на иконку ссылку, меняем ее цвет на серый */
         a:active .social-item {
             background-color: #808080;
         }
 
-        /* Убираем фиолетовый фон при клике */
         a:focus {
             outline: none;
         }
 
+        /* Стили для мобильных устройств */
+        @media screen and (max-width: 768px) {
+            body {
+                flex-direction: column;
+                padding: 10px;
+            }
+
+            .welcome-message h1 {
+                font-size: 2rem;
+            }
+
+            .sub-message {
+                font-size: 1.2rem;
+            }
+
+            .discord-button {
+                font-size: 0.9rem;
+                padding: 8px 16px;
+            }
+
+            .social-item {
+                flex-direction: column;
+                padding: 15px;
+                max-width: 100%;
+                text-align: center;
+            }
+
+            .social-item i {
+                margin-right: 0;
+                margin-bottom: 10px;
+            }
+
+            .social-item p {
+                font-size: 1rem;
+            }
+        }
     </style>
 </head>
 <body>
@@ -195,7 +227,6 @@
         <div class="social-links-container">
             <h2>Social Networks</h2>
             <div class="social-links">
-                <!-- Иконки социальных сетей с Font Awesome и ссылки -->
                 <a href="https://www.twitch.tv/winzly_" class="social-item" target="_blank">
                     <i class="fab fa-twitch"></i>
                     <p>Twitch</p>
@@ -226,6 +257,14 @@
                 }, 1500);
             });
         }
+
+        // Логика для определения устройства
+        document.addEventListener("DOMContentLoaded", () => {
+            const isMobile = /Mobi|Android/i.test(navigator.userAgent);
+            if (isMobile) {
+                document.body.style.backgroundColor = "#1c1c1c"; // Меняем фон для мобильных
+            }
+        });
     </script>
 </body>
 </html>
