@@ -2,8 +2,10 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <!-- Полное отключение масштабирования -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, maximum-scale=1.0, minimum-scale=1.0">
     <title>Winzly Profile</title>
+    <!-- Подключаем Font Awesome для иконок -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
     <style>
         body {
@@ -19,11 +21,11 @@
             flex-direction: column;
             text-align: center;
             overflow: hidden;
-            touch-action: none;
+            touch-action: none; /* Полное отключение жестов касания */
         }
 
         html, body {
-            overscroll-behavior: none;
+            overscroll-behavior: none; /* Отключение эффектов инерционной прокрутки */
         }
 
         .container {
@@ -178,31 +180,6 @@
         a:focus {
             outline: none;
         }
-
-        .footer {
-            position: absolute;
-            bottom: 10px;
-            text-align: center;
-            width: 100%;
-            font-size: 0.9rem;
-            color: #aaa;
-        }
-
-        .footer a {
-            color: #fff;
-            text-decoration: none;
-        }
-
-        @media (max-width: 600px) {
-            .footer {
-                font-size: 0.75rem;
-                padding: 0 10px;
-            }
-
-            .footer a {
-                font-size: 1rem;
-            }
-        }
     </style>
 </head>
 <body>
@@ -235,10 +212,6 @@
         </div>
     </div>
 
-    <div class="footer">
-        Website created by <a href="https://vk.com/winzlyxgood" target="_blank">developer Winzly</a>
-    </div>
-
     <script>
         function copyToClipboard() {
             const textToCopy = ".winzly";
@@ -254,6 +227,7 @@
             });
         }
 
+        // Отключаем масштабирование жестами и другими способами
         document.addEventListener("gesturestart", (e) => e.preventDefault());
         document.addEventListener("gesturechange", (e) => e.preventDefault());
         document.addEventListener("gestureend", (e) => e.preventDefault());
