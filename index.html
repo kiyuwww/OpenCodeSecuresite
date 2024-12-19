@@ -3,14 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <!-- Полное отключение масштабирования -->
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no, minimal-ui">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, maximum-scale=1.0, minimum-scale=1.0">
     <title>Winzly Profile</title>
     <!-- Подключаем Font Awesome для иконок -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <!-- Подключаем Google Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
     <style>
         body {
             margin: 0;
-            font-family: Arial, sans-serif;
+            font-family: 'Poppins', Arial, sans-serif;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -26,7 +28,6 @@
 
         html, body {
             overscroll-behavior: none; /* Отключение эффектов инерционной прокрутки */
-            touch-action: none; /* Отключаем любые касания для предотвращения масштабирования */
         }
 
         .container {
@@ -181,6 +182,27 @@
         a:focus {
             outline: none;
         }
+
+        .footer-text {
+            position: absolute;
+            bottom: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 0.9rem;
+            color: #fff;
+            animation: slideUp 1s ease-out forwards;
+        }
+
+        @keyframes slideUp {
+            0% {
+                transform: translate(-50%, 100%);
+                opacity: 0;
+            }
+            100% {
+                transform: translate(-50%, 0);
+                opacity: 1;
+            }
+        }
     </style>
 </head>
 <body>
@@ -212,6 +234,10 @@
             </div>
         </div>
     </div>
+
+    <a href="https://vk.com/winzlyxgood" target="_blank" class="footer-text">
+        site created by developer winzly
+    </a>
 
     <script>
         function copyToClipboard() {
