@@ -2,254 +2,93 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, maximum-scale=1.0, minimum-scale=1.0">
-    <title>Winzly Profile</title>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Secure Login</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bcryptjs/2.4.3/bcrypt.min.js"></script>
     <style>
         body {
-            margin: 0;
-            font-family: 'Poppins', Arial, sans-serif;
+            background-color: black;
             display: flex;
             justify-content: center;
             align-items: center;
             height: 100vh;
-            background-color: #121212;
-            color: #fff;
-            position: relative;
-            flex-direction: column;
-            text-align: center;
-            overflow: hidden;
-            touch-action: none;
+            color: white;
+            font-family: Arial, sans-serif;
         }
-
-        html, body {
-            overscroll-behavior: none;
-        }
-
-        .container {
-            max-width: 800px;
-            width: 100%;
+        .login-container {
+            background: rgba(255, 255, 255, 0.1);
             padding: 20px;
-            opacity: 0;
-            animation: fadeIn 0.7s forwards 0.2s;
-        }
-
-        @keyframes fadeIn {
-            0% {
-                opacity: 0;
-            }
-            100% {
-                opacity: 1;
-            }
-        }
-
-        .welcome-message h1 {
-            font-size: 2.5rem;
-            margin-bottom: 20px;
-            animation: slideIn 0.7s ease-out forwards;
-        }
-
-        @keyframes slideIn {
-            0% {
-                transform: translateX(100%);
-            }
-            100% {
-                transform: translateX(0);
-            }
-        }
-
-        .sub-message {
-            font-size: 1.5rem;
-            margin-bottom: 30px;
-            animation: slideIn 1s ease-out forwards;
-        }
-
-        .discord-button {
-            background-color: #5865F2;
-            color: #fff;
-            border: none;
-            padding: 10px 20px;
-            font-size: 1rem;
-            border-radius: 5px;
-            cursor: pointer;
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            opacity: 0;
-            animation: slideInButton 1s ease-out forwards;
-        }
-
-        @keyframes slideInButton {
-            0% {
-                transform: translateY(50%);
-            }
-            100% {
-                transform: translateY(0);
-                opacity: 1;
-            }
-        }
-
-        .notification {
-            position: absolute;
-            top: 70px;
-            right: 20px;
-            background-color: #333;
-            color: #fff;
-            padding: 10px 20px;
-            border-radius: 5px;
-            opacity: 0;
-            transition: opacity 0.3s ease;
-        }
-
-        .notification.visible {
-            opacity: 1;
-        }
-
-        .notification.hidden {
-            opacity: 0;
-        }
-
-        .social-links-container {
-            margin-top: 40px;
-            animation: slideInIcons 1.5s ease-out forwards;
-        }
-
-        @keyframes slideInIcons {
-            0% {
-                transform: translateY(100%);
-            }
-            100% {
-                transform: translateY(0);
-            }
-        }
-
-        .social-links {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            flex-wrap: wrap;
-        }
-
-        .social-item {
-            display: flex;
-            align-items: center;
-            background-color: #1f1f1f;
-            border: 2px solid #fff;
-            padding: 10px 20px;
             border-radius: 10px;
-            margin: 10px;
-            transition: background-color 0.3s ease, transform 0.3s ease;
-            max-width: 300px;
+            box-shadow: 0 0 15px rgba(255, 255, 255, 0.2);
+            text-align: center;
+            width: 300px;
         }
-
-        .social-item:hover {
-            background-color: #808080;
-            transform: scale(1.05);
+        input {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: none;
+            border-radius: 5px;
+            background: #222;
+            color: white;
         }
-
-        .social-item i {
-            font-size: 2.5rem;
-            margin-right: 15px;
-            color: #fff;
+        button {
+            width: 100%;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            background: #28a745;
+            color: white;
+            cursor: pointer;
         }
-
-        .social-item p {
-            font-size: 1.2rem;
-            color: #fff;
-            margin: 0;
-        }
-
-        .social-links-container h2 {
-            font-size: 1.5rem;
-            margin-bottom: 20px;
-            color: #fff;
-            font-weight: 600;
-        }
-
-        a {
-            text-decoration: none;
-            color: inherit;
-        }
-
-        a:active .social-item {
-            background-color: #808080;
-        }
-
-        a:focus {
-            outline: none;
-        }
-
-        .footer-text {
-            position: absolute;
-            bottom: 10px;
-            left: 50%;
-            transform: translateX(-50%);
-            font-size: 0.9rem;
-            color: #fff;
-            animation: slideUp 1s ease-out forwards;
-        }
-
-        @keyframes slideUp {
-            0% {
-                transform: translate(-50%, 100%);
-                opacity: 0;
-            }
-            100% {
-                transform: translate(-50%, 0);
-                opacity: 1;
-            }
+        .error-message {
+            display: none;
+            background: red;
+            color: white;
+            padding: 10px;
+            margin-top: 10px;
+            border-radius: 5px;
+            text-align: center;
+            width: 100%;
+            box-shadow: 0 0 10px rgba(255, 0, 0, 0.5);
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <div class="welcome-message">
-            <h1>Welcome to my Kiyu profile</h1>
-        </div>
-        <div class="sub-message">
-            <p>Check out my gaming abilities, projects, and feel free to connect!</p>
-        </div>
-        <button class="discord-button" onclick="copyToClipboard()">Discord</button>
-        <div id="notification" class="notification hidden">Text "zxckiyu" copied!</div>
-
-        <div class="social-links-container">
-            <h2>Social Networks</h2>
-            <div class="social-links">
-                <a href="https://www.twitch.tv/kiyujki" class="social-item" target="_blank">
-                    <i class="fab fa-twitch"></i>
-                    <p>Twitch</p>
-                </a>
-                <a href="https://steamcommunity.com/profiles/76561199182980750/" class="social-item" target="_blank">
-                    <i class="fab fa-steam"></i>
-                    <p>Steam</p>
-                </a>
-            </div>
-        </div>
-    </div>
-
-    <div class="footer-text">
-        site created by developer Kiyu
+    <div class="login-container">
+        <h2>Login</h2>
+        <input type="text" id="username" placeholder="Username">
+        <input type="password" id="password" placeholder="Password">
+        <button onclick="login()">Login</button>
+        <div class="error-message" id="error">Incorrect username or password</div>
     </div>
 
     <script>
-        function copyToClipboard() {
-            const textToCopy = ".winzly";
-            navigator.clipboard.writeText(textToCopy).then(() => {
-                const notification = document.getElementById("notification");
-                notification.classList.remove("hidden");
-                notification.classList.add("visible");
+        const storedUser = "$2b$12$pOuw1AI8nfhyqXtHRNl/kunQUpmBGc0giRX5ERtHot1wJ58Mdp5Ku"; // bcrypt хеш имени
+        const storedPass = "$2b$12$dtqqHtNjshp15MYRH7xGHuu/Erkk/k3qfAphsvl7JmQavW5un5iBu"; // bcrypt хеш пароля
+        let attempts = 0;
 
-                setTimeout(() => {
-                    notification.classList.remove("visible");
-                    notification.classList.add("hidden");
-                }, 1500);
-            });
+        async function login() {
+            if (attempts >= 5) {
+                document.getElementById('error').innerText = "Too many failed attempts. Try again later.";
+                document.getElementById('error').style.display = 'block';
+                return;
+            }
+
+            const inputUser = document.getElementById('username').value;
+            const inputPass = document.getElementById('password').value;
+            
+            const userMatch = await bcrypt.compare(inputUser, storedUser);
+            const passMatch = await bcrypt.compare(inputPass, storedPass);
+
+            if (userMatch && passMatch) {
+                window.location.href = 'welcome.html';
+            } else {
+                attempts++;
+                document.getElementById('error').style.display = 'block';
+            }
         }
-
-        document.addEventListener("gesturestart", (e) => e.preventDefault());
-        document.addEventListener("gesturechange", (e) => e.preventDefault());
-        document.addEventListener("gestureend", (e) => e.preventDefault());
     </script>
 </body>
 </html>
