@@ -3,716 +3,209 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ArchiveBox | Information Archive (Educational)</title>
+    <title>CyberShield Bot | Discord Security</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
-        .gradient-bg {
-            background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+        body {
+            font-family: 'Space Grotesk', sans-serif;
+            background-color: #000;
+            color: #fff;
         }
-        .blur-effect {
-            backdrop-filter: blur(10px);
-            background-color: rgba(15, 23, 42, 0.7);
+        .glow-text {
+            text-shadow: 0 0 10px rgba(0, 255, 255, 0.7);
         }
-        .document-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.5);
+        .glow-box {
+            box-shadow: 0 0 15px rgba(0, 255, 255, 0.5);
         }
-        .type-icon {
-            width: 24px;
-            height: 24px;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            border-radius: 4px;
-            margin-right: 8px;
-        }
-        .scrollbar-hide::-webkit-scrollbar {
-            display: none;
-        }
-        #createDocumentModal {
-            transition: all 0.3s ease;
-        }
-        #aboutModal {
-            transition: all 0.3s ease;
+        .cyber-line {
+            height: 2px;
+            background: linear-gradient(90deg, transparent, #00ffff, transparent);
         }
     </style>
 </head>
-<body class="gradient-bg text-gray-200 min-h-screen font-mono">
-    <!-- Warning Modal -->
-    <div id="warningModal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black bg-opacity-80">
-        <div class="max-w-2xl w-full bg-gray-900 rounded-lg border border-red-600 overflow-hidden">
-            <div class="bg-red-900/50 p-4 border-b border-red-600">
-                <h2 class="text-xl font-bold text-red-400 flex items-center">
-                    <i class="fas fa-exclamation-triangle mr-2"></i>
-                    Disclaimer & Warning
-                </h2>
+<body class="min-h-screen flex flex-col">
+    <!-- Navigation -->
+    <nav class="py-6 px-4 sm:px-8 border-b border-gray-800">
+        <div class="max-w-6xl mx-auto flex justify-between items-center">
+            <div class="flex items-center space-x-2">
+                <div class="w-8 h-8 bg-cyan-500 rounded-full glow-box"></div>
+                <span class="text-xl font-bold glow-text">CyberShield</span>
             </div>
-            <div class="p-6">
-                <p class="mb-4 text-orange-200">
-                    <strong>This is an educational demonstration only.</strong> This interface replicates certain archive site features for academic study of information security and web development.
-                </p>
-                <p class="mb-4 text-gray-300">
-                    This site does not store, process or distribute any real personal information. All content is simulated for demonstration purposes.
-                </p>
-                <p class="mb-6 text-sm text-gray-400">
-                    By continuing, you acknowledge this is a fictional educational tool and agree to use it responsibly for learning purposes only.
-                </p>
-                <div class="flex justify-end">
-                    <button onclick="closeWarning()" class="px-4 py-2 bg-blue-600 hover:bg-blue-700 rounded-md font-medium transition-colors">
-                        I Understand - Continue
-                    </button>
-                </div>
+            <div class="hidden md:flex space-x-8">
+                <a href="#features" class="hover:text-cyan-400 transition">Features</a>
+                <a href="#commands" class="hover:text-cyan-400 transition">Commands</a>
+                <a href="#about" class="hover:text-cyan-400 transition">About</a>
             </div>
+            <a href="https://discord.com/oauth2/authorize?client_id=YOUR_BOT_ID&scope=bot&permissions=8" 
+               class="bg-cyan-600 hover:bg-cyan-700 text-white px-4 py-2 rounded-md transition glow-box">
+                Invite Bot
+            </a>
         </div>
-    </div>
+    </nav>
 
-    <!-- About Modal -->
-    <div id="aboutModal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black bg-opacity-80 hidden">
-        <div class="max-w-2xl w-full bg-gray-900 rounded-lg border border-gray-700 overflow-hidden">
-            <div class="bg-purple-900/50 p-4 border-b border-purple-600">
-                <h2 class="text-xl font-bold text-purple-400 flex items-center">
-                    <i class="fas fa-info-circle mr-2"></i>
-                    About ArchiveBox
-                </h2>
-            </div>
-            <div class="p-6">
-                <div class="mb-4 text-gray-300">
-                    <p>ArchiveBox is an educational demonstration platform for sharing and archiving documents and discussions.</p>
-                </div>
-                <div class="flex justify-end">
-                    <button onclick="closeAboutModal()" class="px-4 py-2 bg-gray-700 hover:bg-gray-600 rounded-md font-medium transition-colors">
-                        Close
-                    </button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Create Document Modal -->
-    <div id="createDocumentModal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black bg-opacity-80 hidden">
-        <div class="max-w-2xl w-full bg-gray-900 rounded-lg border border-gray-700 overflow-hidden">
-            <div class="bg-blue-900/50 p-4 border-b border-blue-600">
-                <h2 class="text-xl font-bold text-blue-400 flex items-center">
-                    <i class="fas fa-file-alt mr-2"></i>
-                    Create New Document
-                </h2>
-            </div>
-            <div class="p-6">
-                <div class="mb-4">
-                    <label class="block text-gray-400 mb-2">Document Title</label>
-                    <input type="text" id="documentTitle" class="w-full bg-gray-800 px-4 py-2 rounded-md border border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500">
-                </div>
-                <div class="mb-4">
-                    <label class="block text-gray-400 mb-2">Category</label>
-                    <select id="documentCategory" class="w-full bg-gray-800 px-4 py-2 rounded-md border border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500">
-                        <option value="Technology">Technology</option>
-                        <option value="Security">Security</option>
-                        <option value="Forum">Forum</option>
-                    </select>
-                </div>
-                <div class="mb-4">
-                    <label class="block text-gray-400 mb-2">Content</label>
-                    <textarea id="documentContent" rows="8" class="w-full bg-gray-800 px-4 py-2 rounded-md border border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500"></textarea>
-                </div>
-                <div class="flex justify-end space-x-3">
-                    <button onclick="closeCreateModal()" class="px-4 py-2 bg-gray-700 hover:bg-gray-600 rounded-md font-medium transition-colors">
-                        Cancel
-                    </button>
-                    <button onclick="submitDocument()" class="px-4 py-2 bg-blue-600 hover:bg-blue-700 rounded-md font-medium transition-colors">
-                        Submit Document
-                    </button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Header -->
-    <header class="blur-effect border-b border-gray-700 sticky top-0 z-40">
-        <div class="container mx-auto px-4 py-3 flex items-center justify-between">
-            <div class="flex items-center">
-                <div class="mr-4 text-blue-400">
-                    <i class="fas fa-archive text-2xl"></i>
-                </div>
-                <h1 class="text-xl font-bold bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
-                    ArchiveBox
-                </h1>
-            </div>
-            <nav class="hidden md:flex space-x-6">
-                <a href="#" onclick="showDocuments()" class="hover:text-blue-300 transition-colors">Documents</a>
-                <a href="#" onclick="showForum()" class="hover:text-blue-300 transition-colors">Forums</a>
-                <a href="#" onclick="showAbout()" class="hover:text-blue-300 transition-colors">About</a>
-            </nav>
-            <div class="flex items-center space-x-4">
-                <div class="relative">
-                    <input type="text" placeholder="Search archives..." class="bg-gray-800 px-4 py-2 pr-10 rounded-md border border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500 w-48 md:w-64">
-                    <button class="absolute right-3 top-2.5 text-gray-400 hover:text-white">
-                        <i class="fas fa-search"></i>
-                    </button>
-                </div>
-                <button class="md:hidden text-2xl">
-                    <i class="fas fa-bars"></i>
-                </button>
-            </div>
-        </div>
-    </header>
-
-    <main class="container mx-auto px-4 py-8">
-        <!-- Hero Section -->
-        <section class="mb-12">
-            <div class="max-w-4xl mx-auto text-center">
-                <h2 class="text-4xl md:text-5xl font-bold mb-6 bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
-                    Information Archive Platform
-                </h2>
-                <p class="text-lg text-gray-300 mb-8 max-w-2xl mx-auto">
-                    A real-time document sharing and archive management system.
+    <!-- Hero Section -->
+    <main class="flex-grow flex items-center">
+        <div class="max-w-6xl mx-auto px-4 sm:px-8 py-16">
+            <div class="text-center">
+                <h1 class="text-4xl sm:text-6xl font-bold mb-6 glow-text">CYBERSHIELD</h1>
+                <div class="cyber-line w-64 mx-auto mb-8"></div>
+                <p class="text-xl text-gray-300 max-w-2xl mx-auto mb-12">
+                    Advanced cybersecurity protection for your Discord server.
+                    <br>Automated threat detection and prevention.
                 </p>
                 <div class="flex justify-center space-x-4">
-                    <button onclick="openCreateModal()" class="px-6 py-3 bg-blue-600 hover:bg-blue-700 rounded-md font-medium transition-colors">
-                        <i class="fas fa-plus mr-2"></i> Create Document
-                    </button>
-                    <button onclick="showForum()" class="px-6 py-3 bg-gray-700 hover:bg-gray-600 rounded-md font-medium transition-colors">
-                        <i class="fas fa-comments mr-2"></i> Browse Forums
-                    </button>
+                    <a href="https://discord.com/oauth2/authorize?client_id=YOUR_BOT_ID&scope=bot&permissions=8" 
+                       class="bg-cyan-600 hover:bg-cyan-700 text-white px-6 py-3 rounded-md transition glow-box text-lg">
+                        Add to Discord
+                    </a>
+                    <a href="#features" 
+                       class="border border-cyan-500 text-cyan-400 hover:bg-cyan-900 hover:bg-opacity-30 px-6 py-3 rounded-md transition text-lg">
+                        Learn More
+                    </a>
                 </div>
             </div>
-        </section>
-
-        <!-- Stats -->
-        <section class="mb-12">
-            <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
-                <div class="bg-gray-800/50 p-6 rounded-lg border border-gray-700 text-center">
-                    <div id="documentCount" class="text-3xl font-bold text-blue-400 mb-2">0</div>
-                    <div class="text-gray-400">Documents</div>
-                </div>
-                <div class="bg-gray-800/50 p-6 rounded-lg border border-gray-700 text-center">
-                    <div id="userCount" class="text-3xl font-bold text-purple-400 mb-2">1</div>
-                    <div class="text-gray-400">Users Online</div>
-                </div>
-                <div class="bg-gray-800/50 p-6 rounded-lg border border-gray-700 text-center">
-                    <div class="text-3xl font-bold text-green-400 mb-2">3</div>
-                    <div class="text-gray-400">Categories</div>
-                </div>
-                <div class="bg-gray-800/50 p-6 rounded-lg border border-gray-700 text-center">
-                    <div id="viewCount" class="text-3xl font-bold text-orange-400 mb-2">0</div>
-                    <div class="text-gray-400">Page Views</div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Documents Section -->
-        <section id="documentsSection" class="mb-12">
-            <div class="flex justify-between items-center mb-6">
-                <h3 class="text-2xl font-bold text-white">
-                    <i class="fas fa-file-alt mr-2 text-blue-400"></i>
-                    Recent Documents
-                </h3>
-                <div>
-                    <select id="categoryFilter" class="bg-gray-800 border border-gray-700 rounded-md px-3 py-1.5 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
-                        <option value="all">All Categories</option>
-                        <option value="Technology">Technology</option>
-                        <option value="Security">Security</option>
-                        <option value="Forum">Forum</option>
-                    </select>
-                </div>
-            </div>
-
-            <!-- Documents Grid -->
-            <div id="documentsGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                <!-- Documents will be added here dynamically -->
-                <div class="text-gray-400 col-span-full text-center py-10">
-                    <i class="fas fa-folder-open text-4xl mb-4"></i>
-                    <p>No documents have been created yet. Be the first to share!</p>
-                </div>
-            </div>
-        </section>
-
-        <!-- Forum Section (hidden by default) -->
-        <section id="forumSection" class="mb-12 hidden">
-            <div class="flex justify-between items-center mb-6">
-                <h3 class="text-2xl font-bold text-white">
-                    <i class="fas fa-comments mr-2 text-purple-400"></i>
-                    Forum Discussions
-                </h3>
-                <button onclick="showDocuments()" class="text-sm text-blue-400 hover:text-blue-300">
-                    <i class="fas fa-arrow-left mr-1"></i> Back to Documents
-                </button>
-            </div>
-            
-            <div class="mb-8">
-                <div class="bg-gray-800/50 rounded-lg border border-gray-700 p-4">
-                    <h4 class="text-lg font-medium mb-3 text-white">
-                        <i class="fas fa-plus-circle mr-2 text-green-400"></i>
-                        Create New Forum Post
-                    </h4>
-                    <button onclick="createForumPost()" class="w-full px-4 py-2 bg-purple-600 hover:bg-purple-700 rounded-md font-medium transition-colors">
-                        <i class="fas fa-edit mr-2"></i> Create Post
-                    </button>
-                </div>
-            </div>
-
-            <!-- Forum Posts Grid -->
-            <div id="forumGrid" class="grid grid-cols-1 gap-4">
-                <!-- Forum posts will be added here dynamically -->
-                <div class="text-gray-400 col-span-full text-center py-10">
-                    <i class="fas fa-comments text-4xl mb-4"></i>
-                    <p>No forum posts have been created yet. Start a discussion!</p>
-                </div>
-            </div>
-        </section>
+        </div>
     </main>
 
-    <footer class="blur-effect border-t border-gray-700">
-        <div class="container mx-auto px-4 py-8">
-            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
-                <div>
-                    <h4 class="text-lg font-medium mb-4 text-blue-400">ArchiveBox</h4>
-                    <p class="text-sm text-gray-400">
-                        A real-time document sharing platform for research and education.
-                    </p>
+    <!-- Features Section -->
+    <section id="features" class="py-20 px-4 sm:px-8 bg-gray-900 bg-opacity-50">
+        <div class="max-w-6xl mx-auto">
+            <h2 class="text-3xl font-bold text-center mb-16 glow-text">PROTECTION FEATURES</h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <!-- Feature 1 -->
+                <div class="bg-gray-800 p-6 rounded-lg border border-gray-700 hover:border-cyan-500 transition">
+                    <div class="text-cyan-400 text-2xl mb-4">🛡️</div>
+                    <h3 class="text-xl font-semibold mb-3">Malicious Link Detection</h3>
+                    <p class="text-gray-300">Automatically scans and blocks phishing links, IP grabbers, and malware.</p>
                 </div>
-                <div>
-                    <h5 class="text-sm font-medium mb-4 uppercase text-gray-500">Navigation</h5>
-                    <ul class="space-y-2">
-                        <li><a href="#" class="text-gray-400 hover:text-blue-300 text-sm">Home</a></li>
-                        <li><a href="#" onclick="showDocuments()" class="text-gray-400 hover:text-blue-300 text-sm">Documents</a></li>
-                        <li><a href="#" onclick="showForum()" class="text-gray-400 hover:text-blue-300 text-sm">Forums</a></li>
-                        <li><a href="#" onclick="showAbout()" class="text-gray-400 hover:text-blue-300 text-sm">About</a></li>
-                    </ul>
+                
+                <!-- Feature 2 -->
+                <div class="bg-gray-800 p-6 rounded-lg border border-gray-700 hover:border-cyan-500 transition">
+                    <div class="text-cyan-400 text-2xl mb-4">🔍</div>
+                    <h3 class="text-xl font-semibold mb-3">Raid Protection</h3>
+                    <p class="text-gray-300">Detects and prevents mass joins, spam attacks, and server raids.</p>
                 </div>
-                <div>
-                    <h5 class="text-sm font-medium mb-4 uppercase text-gray-500">Legal</h5>
-                    <ul class="space-y-2">
-                        <li><a href="#" class="text-gray-400 hover:text-blue-300 text-sm">Disclaimer</a></li>
-                        <li><a href="#" class="text-gray-400 hover:text-blue-300 text-sm">Privacy Policy</a></li>
-                        <li><a href="#" class="text-gray-400 hover:text-blue-300 text-sm">Terms of Use</a></li>
-                    </ul>
+                
+                <!-- Feature 3 -->
+                <div class="bg-gray-800 p-6 rounded-lg border border-gray-700 hover:border-cyan-500 transition">
+                    <div class="text-cyan-400 text-2xl mb-4">🚨</div>
+                    <h3 class="text-xl font-semibold mb-3">Automated Alerts</h3>
+                    <p class="text-gray-300">Instant notifications for suspicious activities with detailed logs.</p>
                 </div>
-                <div>
-                    <h5 class="text-sm font-medium mb-4 uppercase text-gray-500">Connect</h5>
-                    <div class="flex space-x-4">
-                        <a href="#" class="text-gray-400 hover:text-blue-300">
-                            <i class="fab fa-github"></i>
-                        </a>
-                        <a href="#" class="text-gray-400 hover:text-blue-300">
-                            <i class="fab fa-twitter"></i>
-                        </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Commands Section -->
+    <section id="commands" class="py-20 px-4 sm:px-8">
+        <div class="max-w-6xl mx-auto">
+            <h2 class="text-3xl font-bold text-center mb-16 glow-text">CORE COMMANDS</h2>
+            
+            <div class="bg-gray-900 bg-opacity-70 rounded-lg overflow-hidden border border-gray-800 max-w-3xl mx-auto">
+                <div class="border-b border-gray-800 p-4 bg-gray-900 flex items-center">
+                    <div class="flex space-x-2">
+                        <div class="w-3 h-3 rounded-full bg-red-500"></div>
+                        <div class="w-3 h-3 rounded-full bg-yellow-500"></div>
+                        <div class="w-3 h-3 rounded-full bg-green-500"></div>
+                    </div>
+                    <div class="text-sm text-gray-400 ml-4">CyberShield Commands</div>
+                </div>
+                
+                <div class="p-6">
+                    <div class="mb-4">
+                        <div class="flex items-start">
+                            <span class="text-cyan-400 mr-2">$</span>
+                            <div>
+                                <span class="text-green-400">/protect</span>
+                                <span class="text-gray-400 ml-2">- Enable security features</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="mb-4">
+                        <div class="flex items-start">
+                            <span class="text-cyan-400 mr-2">$</span>
+                            <div>
+                                <span class="text-green-400">/scan @user</span>
+                                <span class="text-gray-400 ml-2">- Check user for threats</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="mb-4">
+                        <div class="flex items-start">
+                            <span class="text-cyan-400 mr-2">$</span>
+                            <div>
+                                <span class="text-green-400">/logs</span>
+                                <span class="text-gray-400 ml-2">- View security incidents</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="mb-4">
+                        <div class="flex items-start">
+                            <span class="text-cyan-400 mr-2">$</span>
+                            <div>
+                                <span class="text-green-400">/whitelist</span>
+                                <span class="text-gray-400 ml-2">- Manage safe domains</span>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
-            <div class="border-t border-gray-800 mt-8 pt-8 text-center text-sm text-gray-500">
-                <p>© 2023 ArchiveBox. All content is user-generated in real-time.</p>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="py-20 px-4 sm:px-8 bg-gray-900 bg-opacity-50">
+        <div class="max-w-6xl mx-auto text-center">
+            <h2 class="text-3xl font-bold mb-8 glow-text">ABOUT CYBERSHIELD</h2>
+            <p class="text-xl text-gray-300 max-w-3xl mx-auto mb-12">
+                CyberShield is a powerful Discord bot designed to protect your community from digital threats.
+                <br>Built with advanced algorithms to keep your server safe 24/7.
+            </p>
+            <div class="cyber-line w-64 mx-auto mb-12"></div>
+            <div class="flex justify-center">
+                <a href="https://discord.com/oauth2/authorize?client_id=YOUR_BOT_ID&scope=bot&permissions=8" 
+                   class="bg-cyan-600 hover:bg-cyan-700 text-white px-8 py-3 rounded-md transition glow-box text-lg">
+                    Get Protected Now
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="py-8 px-4 sm:px-8 border-t border-gray-800">
+        <div class="max-w-6xl mx-auto flex flex-col md:flex-row justify-between items-center">
+            <div class="flex items-center space-x-2 mb-4 md:mb-0">
+                <div class="w-6 h-6 bg-cyan-500 rounded-full"></div>
+                <span class="text-lg font-bold">CyberShield</span>
+            </div>
+            <div class="text-gray-400 text-sm">
+                © 2023 CyberShield Bot. All rights reserved.
+            </div>
+            <div class="flex space-x-4 mt-4 md:mt-0">
+                <a href="#" class="text-gray-400 hover:text-cyan-400 transition">Terms</a>
+                <a href="#" class="text-gray-400 hover:text-cyan-400 transition">Privacy</a>
+                <a href="#" class="text-gray-400 hover:text-cyan-400 transition">Support</a>
             </div>
         </div>
     </footer>
 
+    <!-- Small JS for smooth scrolling -->
     <script>
-        // Document storage
-        let documents = [];
-        let categories = {
-            "Technology": { count: 0, icon: "fa-code", color: "bg-blue-500/20 text-blue-400" },
-            "Security": { count: 0, icon: "fa-shield-alt", color: "bg-purple-500/20 text-purple-400" },
-            "Forum": { count: 0, icon: "fa-comments", color: "bg-green-500/20 text-green-400" }
-        };
-        
-        let pageViews = 0;
-        let usersOnline = 1; // Starts with you
-
-        // DOM Elements
-        const documentsGrid = document.getElementById('documentsGrid');
-        const forumGrid = document.getElementById('forumGrid');
-        const documentCountEl = document.getElementById('documentCount');
-        const userCountEl = document.getElementById('userCount');
-        const viewCountEl = document.getElementById('viewCount');
-        const categoryFilter = document.getElementById('categoryFilter');
-        const documentsSection = document.getElementById('documentsSection');
-        const forumSection = document.getElementById('forumSection');
-
-        // Initialize with a few sample documents so it's not empty
-        function initializeSampleDocuments() {
-            if(documents.length === 0) {
-                const sampleDocs = [
-                    {
-                        id: Date.now(),
-                        title: "Welcome to ArchiveBox",
-                        category: "Technology",
-                        content: "This is a sample document to demonstrate the platform. You can create your own documents by clicking the 'Create Document' button.",
-                        author: "System",
-                        date: new Date().toISOString().split('T')[0],
-                        views: 1,
-                        verified: true,
-                        type: "txt"
-                    },
-                    {
-                        id: Date.now() + 1,
-                        title: "How to Use This Platform",
-                        category: "Technology",
-                        content: "Instructions for using this educational demo:\n1. Create documents with the create button\n2. Browse by category\n3. All content is user-generated in real-time",
-                        author: "System",
-                        date: new Date().toISOString().split('T')[0],
-                        views: 1,
-                        verified: true,
-                        type: "txt"
-                    },
-                    {
-                        id: Date.now() + 2,
-                        title: "Security Best Practices",
-                        category: "Security",
-                        content: "Always verify the source of documents before trusting their content. Report suspicious activity immediately.",
-                        author: "Admin",
-                        date: new Date().toISOString().split('T')[0],
-                        views: 1,
-                        verified: true,
-                        type: "txt"
-                    },
-                    {
-                        id: Date.now() + 3,
-                        title: "General Discussion",
-                        category: "Forum",
-                        content: "This is a sample forum post. Forum posts are for discussions and questions about the platform or other topics.",
-                        author: "Moderator",
-                        date: new Date().toISOString().split('T')[0],
-                        views: 1,
-                        verified: true,
-                        type: "txt"
-                    }
-                ];
-                
-                sampleDocs.forEach(doc => {
-                    addDocument(doc);
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
                 });
-            }
-        }
-
-        // Add a new document
-        function addDocument(doc) {
-            documents.unshift(doc);
-            categories[doc.category].count++;
-            updateDocumentCount();
-            if(doc.category === "Forum") {
-                renderForumPosts();
-            } else {
-                renderDocuments();
-            }
-        }
-
-        // Update document count
-        function updateDocumentCount() {
-            documentCountEl.textContent = documents.length;
-        }
-
-        // Update user count
-        function updateUserCount() {
-            const randomChange = Math.floor(Math.random() * 3) - 1; // -1, 0, or 1
-            usersOnline = Math.max(1, usersOnline + randomChange);
-            userCountEl.textContent = usersOnline;
-        }
-
-        // Increment page views
-        function incrementPageViews() {
-            pageViews++;
-            viewCountEl.textContent = pageViews.toLocaleString();
-        }
-
-        // Render documents
-        function renderDocuments(filterCategory = 'all') {
-            const filteredDocs = filterCategory === 'all' 
-                ? documents.filter(doc => doc.category !== "Forum")
-                : documents.filter(doc => doc.category === filterCategory && doc.category !== "Forum");
-            
-            if(filteredDocs.length === 0) {
-                documentsGrid.innerHTML = `
-                    <div class="text-gray-400 col-span-full text-center py-10">
-                        <i class="fas fa-folder-open text-4xl mb-4"></i>
-                        <p>No documents found in this category.</p>
-                    </div>
-                `;
-                return;
-            }
-            
-            documentsGrid.innerHTML = filteredDocs.map(doc => `
-                <div class="document-card bg-gray-800/50 rounded-lg border border-gray-700 overflow-hidden transition-all duration-300">
-                    <div class="p-5 border-b border-gray-700">
-                        <div class="flex justify-between items-start mb-3">
-                            <div class="flex items-center">
-                                <span class="type-icon ${categories[doc.category].color}">
-                                    <i class="fas fa-file-alt text-xs"></i>
-                                </span>
-                                <span class="text-xs text-gray-400">${doc.type.toUpperCase()}</span>
-                            </div>
-                            <span class="text-xs px-2 py-1 ${doc.verified ? 'bg-green-900/30 text-green-400' : 'bg-yellow-900/30 text-yellow-400'} rounded-md">
-                                ${doc.verified ? 'Verified' : 'Unverified'}
-                            </span>
-                        </div>
-                        <h4 class="text-lg font-medium mb-2 line-clamp-1">${doc.title}</h4>
-                        <p class="text-sm text-gray-400 line-clamp-2 mb-3">
-                            ${doc.content.substring(0, 100)}${doc.content.length > 100 ? '...' : ''}
-                        </p>
-                        <div class="flex justify-between text-xs text-gray-500">
-                            <span><i class="fas fa-calendar mr-1"></i> ${doc.date}</span>
-                            <span><i class="fas fa-eye mr-1"></i> ${doc.views} views</span>
-                        </div>
-                    </div>
-                    <div class="px-5 py-3 bg-gray-900/20 flex justify-between items-center">
-                        <div>
-                            <span class="text-sm text-gray-400">
-                                <i class="fas fa-user mr-1"></i> ${doc.author}
-                            </span>
-                            <span class="ml-3 text-xs px-2 py-0.5 ${categories[doc.category].color.replace('bg-', 'bg-').replace('/20', '/30')} rounded-md">
-                                ${doc.category}
-                            </span>
-                        </div>
-                        <button onclick="viewDocument('${doc.id}')" class="text-xs px-3 py-1 bg-blue-600/30 hover:bg-blue-600/50 rounded-md transition-colors">
-                            View <i class="fas fa-chevron-right ml-1"></i>
-                        </button>
-                    </div>
-                </div>
-            `).join('');
-        }
-
-        // Render forum posts
-        function renderForumPosts() {
-            const forumPosts = documents.filter(doc => doc.category === "Forum");
-            
-            if(forumPosts.length === 0) {
-                forumGrid.innerHTML = `
-                    <div class="text-gray-400 col-span-full text-center py-10">
-                        <i class="fas fa-comments text-4xl mb-4"></i>
-                        <p>No forum posts have been created yet. Start a discussion!</p>
-                    </div>
-                `;
-                return;
-            }
-            
-            forumGrid.innerHTML = forumPosts.map(post => `
-                <div class="forum-post bg-gray-800/50 rounded-lg border border-gray-700 overflow-hidden transition-all duration-300 hover:bg-gray-800/70">
-                    <div class="p-5">
-                        <div class="flex justify-between items-center mb-3">
-                            <h4 class="text-lg font-medium">${post.title}</h4>
-                            <span class="text-xs px-2 py-1 bg-purple-900/30 text-purple-400 rounded-md">
-                                <i class="fas fa-comment mr-1"></i> Forum
-                            </span>
-                        </div>
-                        <p class="text-sm text-gray-400 line-clamp-2 mb-4">
-                            ${post.content.substring(0, 200)}${post.content.length > 200 ? '...' : ''}
-                        </p>
-                        <div class="flex justify-between text-xs text-gray-400">
-                            <span><i class="fas fa-user mr-1"></i> Posted by ${post.author}</span>
-                            <span><i class="fas fa-calendar mr-1"></i> ${post.date}</span>
-                        </div>
-                    </div>
-                    <div class="px-5 py-3 bg-gray-900/20 flex justify-between items-center">
-                        <div class="flex items-center space-x-2">
-                            <button onclick="viewDocument('${post.id}')" class="text-xs px-3 py-1 bg-purple-600/30 hover:bg-purple-600/50 rounded-md transition-colors">
-                                <i class="fas fa-eye mr-1"></i> View Post
-                            </button>
-                            <button class="text-xs px-3 py-1 bg-blue-600/30 hover:bg-blue-600/50 rounded-md transition-colors">
-                                <i class="fas fa-reply mr-1"></i> Reply
-                            </button>
-                        </div>
-                        <div class="flex items-center text-xs text-gray-400">
-                            <i class="fas fa-comments mr-1"></i> ${Math.floor(Math.random() * 10)} replies
-                        </div>
-                    </div>
-                </div>
-            `).join('');
-        }
-
-        // View document
-        function viewDocument(id) {
-            const doc = documents.find(d => d.id === id);
-            if(doc) {
-                doc.views++;
-                
-                // Show a modal with the document content
-                const modal = document.createElement('div');
-                modal.className = 'fixed inset-0 z-50 flex items-center justify-center p-4 bg-black bg-opacity-80';
-                modal.innerHTML = `
-                    <div class="max-w-3xl w-full bg-gray-900 rounded-lg border ${doc.category === "Forum" ? 'border-purple-700' : 'border-gray-700'} overflow-hidden max-h-[90vh] flex flex-col">
-                        <div class="bg-gray-800 p-4 ${doc.category === "Forum" ? 'bg-purple-900/20' : ''} border-b ${doc.category === "Forum" ? 'border-purple-700' : 'border-gray-700'} flex justify-between items-center">
-                            <h3 class="text-xl font-bold ${doc.category === "Forum" ? 'text-purple-400' : 'text-blue-400'}">
-                                <i class="fas ${categories[doc.category].icon} mr-2"></i>
-                                ${doc.title}
-                            </h3>
-                            <button onclick="this.parentElement.parentElement.parentElement.remove()" class="text-gray-400 hover:text-white">
-                                <i class="fas fa-times"></i>
-                            </button>
-                        </div>
-                        <div class="p-6 overflow-y-auto flex-grow">
-                            <div class="mb-4 flex justify-between text-sm text-gray-400">
-                                <div>
-                                    <span class="mr-4"><i class="fas fa-user mr-1"></i> ${doc.author}</span>
-                                    <span><i class="fas fa-calendar mr-1"></i> ${doc.date}</span>
-                                </div>
-                                <span class="px-2 py-0.5 ${categories[doc.category].color.replace('bg-', 'bg-').replace('/20', '/30')} rounded-md">
-                                    ${doc.category}
-                                </span>
-                            </div>
-                            <div class="bg-gray-800 rounded-md p-4 whitespace-pre-line font-mono text-sm text-gray-300">
-                                ${doc.content}
-                            </div>
-                            ${doc.category === "Forum" ? `
-                            <div class="mt-6">
-                                <h4 class="text-lg font-medium mb-3 text-gray-200 flex items-center">
-                                    <i class="fas fa-comment-dots mr-2 text-blue-400"></i>
-                                    Replies
-                                </h4>
-                                <div class="space-y-4">
-                                    <div class="bg-gray-800/50 p-4 rounded-lg border border-gray-700">
-                                        <div class="flex items-start mb-2">
-                                            <img src="https://ui-avatars.com/api/?name=System+Admin&background=1e293b&color=fff" class="w-8 h-8 rounded-full mr-3" alt="System Admin">
-                                            <div>
-                                                <div class="text-sm font-medium text-blue-300">System Admin</div>
-                                                <div class="text-xs text-gray-500 mb-2">Today at 14:30</div>
-                                                <div class="text-sm text-gray-300">Thanks for starting this discussion! This is a sample reply to demonstrate forum functionality.</div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="mt-4">
-                                    <textarea class="w-full bg-gray-800/50 px-4 py-2 rounded-md border border-gray-700 focus:outline-none focus:ring-2 focus:ring-purple-500 mb-2" placeholder="Write your reply..."></textarea>
-                                    <button class="px-4 py-2 bg-purple-600 hover:bg-purple-700 rounded-md font-medium transition-colors text-sm">
-                                        Post Reply
-                                    </button>
-                                </div>
-                            </div>
-                            ` : ''}
-                        </div>
-                        <div class="bg-gray-800/50 p-4 border-t ${doc.category === "Forum" ? 'border-purple-700' : 'border-gray-700'} flex justify-between items-center text-sm text-gray-400">
-                            <div>
-                                <i class="fas fa-eye mr-1"></i> ${doc.views} views
-                            </div>
-                            <div>
-                                <button onclick="downloadDocument('${doc.id}')" class="px-3 py-1 mr-2 bg-gray-700 hover:bg-gray-600 rounded-md transition-colors">
-                                    <i class="fas fa-download mr-1"></i> Download
-                                </button>
-                                <button onclick="this.parentElement.parentElement.parentElement.remove()" class="px-3 py-1 ${doc.category === "Forum" ? 'bg-purple-600 hover:bg-purple-700' : 'bg-blue-600 hover:bg-blue-700'} rounded-md transition-colors">
-                                    Close
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                `;
-                document.body.appendChild(modal);
-                
-                // Update counts
-                updateDocumentCount();
-                incrementPageViews();
-            }
-        }
-
-        // Download document
-        function downloadDocument(id) {
-            const doc = documents.find(d => d.id === id);
-            if(doc) {
-                const element = document.createElement('a');
-                element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(doc.content));
-                element.setAttribute('download', `${doc.title.replace(/\s+/g, '_')}.txt`);
-                element.style.display = 'none';
-                document.body.appendChild(element);
-                element.click();
-                document.body.removeChild(element);
-            }
-        }
-
-        // Filter by category
-        function filterByCategory(category) {
-            categoryFilter.value = category;
-            renderDocuments(category);
-            showDocuments();
-        }
-
-        // Show documents section
-        function showDocuments() {
-            documentsSection.classList.remove('hidden');
-            forumSection.classList.add('hidden');
-            renderDocuments();
-        }
-
-        // Show forum section
-        function showForum() {
-            documentsSection.classList.add('hidden');
-            forumSection.classList.remove('hidden');
-            renderForumPosts();
-        }
-
-        // Show about modal
-        function showAbout() {
-            document.getElementById('aboutModal').classList.remove('hidden');
-        }
-
-        // Close about modal
-        function closeAboutModal() {
-            document.getElementById('aboutModal').classList.add('hidden');
-        }
-
-        // Open create modal
-        function openCreateModal() {
-            document.getElementById('createDocumentModal').classList.remove('hidden');
-        }
-
-        // Create forum post
-        function createForumPost() {
-            document.getElementById('documentCategory').value = "Forum";
-            openCreateModal();
-        }
-
-        // Close create modal
-        function closeCreateModal() {
-            document.getElementById('createDocumentModal').classList.add('hidden');
-            document.getElementById('documentTitle').value = '';
-            document.getElementById('documentContent').value = '';
-        }
-
-        // Submit new document
-        function submitDocument() {
-            const title = document.getElementById('documentTitle').value.trim();
-            const category = document.getElementById('documentCategory').value;
-            const content = document.getElementById('documentContent').value.trim();
-            
-            if(title === '' || content === '') {
-                alert('Please fill in all fields');
-                return;
-            }
-            
-            const newDoc = {
-                id: Date.now().toString(),
-                title,
-                category,
-                content,
-                author: "User" + Math.floor(Math.random() * 1000),
-                date: new Date().toISOString().split('T')[0],
-                views: 0,
-                verified: Math.random() > 0.3, // 70% chance to be verified
-                type: "txt"
-            };
-            
-            addDocument(newDoc);
-            closeCreateModal();
-            
-            // Show the document
-            setTimeout(() => {
-                viewDocument(newDoc.id);
-            }, 300);
-        }
-
-        // Close warning modal
-        function closeWarning() {
-            document.getElementById('warningModal').style.display = 'none';
-            incrementPageViews();
-            initializeSampleDocuments();
-            
-            // Start simulating user count changes
-            setInterval(updateUserCount, 10000);
-        }
-
-        // Event listeners
-        categoryFilter.addEventListener('change', (e) => {
-            renderDocuments(e.target.value);
+            });
         });
-
-        // Initialize
-        initializeSampleDocuments();
     </script>
 </body>
 </html>
