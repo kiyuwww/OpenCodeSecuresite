@@ -1,82 +1,96 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="ru">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Three-Step Secure Login</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Montserrat:wght@300;500&display=swap" rel="stylesheet">
   <style>
-    :root{--bg:#111;--fg:#fff;--accent:#4CAF50}
-    html,body{height:100%;margin:0;font-family:Inter, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial}
-    .center{display:flex;align-items:center;justify-content:center;height:100%}
-    .card{width:420px;padding:28px;border-radius:12px;box-shadow:0 8px 30px rgba(0,0,0,0.4);background:linear-gradient(180deg,#0f1724, #0b1220);color:var(--fg)}
-    h1{font-size:20px;margin:0 0 10px}
-    p.lead{margin:0 0 18px;color:#9aa3b2}
-    label{display:block;font-size:13px;margin-bottom:6px;color:#bfc9d6}
-    input[type=text],input[type=password]{width:100%;padding:10px 12px;border-radius:8px;border:1px solid rgba(255,255,255,0.06);background:transparent;color:var(--fg);outline:none;font-size:14px}
-    button{margin-top:12px;width:100%;padding:10px;border-radius:8px;border:0;background:#0ea5a4;color:#071018;font-weight:600;cursor:pointer}
-    .small{font-size:12px;color:#8f9aa8;margin-top:8px}
-    .hidden{display:none}
-    /* final welcome style */
-    .final-page{background:#000;color:#fff;padding:40px;border-radius:12px;text-align:center}
-    .welcome{font-size:36px;font-weight:700;letter-spacing:1px}
-    .subtitle{margin-top:8px;color:#cfd6dd}
+    body {
+      font-family: 'Montserrat', sans-serif;
+      transition: background-color 0.8s ease;
+      overflow: hidden;
+      background-color: #1e293b;
+      color: white;
+    }
+    .title-font { font-family: 'Orbitron', sans-serif; }
+    .input-field {
+      background: rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      backdrop-filter: blur(5px);
+    }
+    .btn {
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+    .btn:after {
+      content: "";
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 5px;
+      height: 5px;
+      background: rgba(255, 255, 255, 0.5);
+      opacity: 0;
+      border-radius: 100%;
+      transform: scale(1, 1) translate(-50%);
+      transform-origin: 50% 50%;
+    }
+    .btn:focus:not(:active)::after { animation: ripple 1s ease-out; }
+    @keyframes ripple { 0% { transform: scale(0,0); opacity:0.5; } 100% { transform: scale(20,20); opacity:0; } }
+    .final-page {
+      background:#000; color:#fff; padding:40px; border-radius:12px; text-align:center;
+    }
+    .welcome-text {
+      font-family:'Orbitron', sans-serif; font-size:3rem; font-weight:700; animation:fadeIn 2s ease-out forwards;
+      opacity:0;
+    }
+    .subtitle { margin-top:8px; color:#cfd6dd; font-size:1.2rem; opacity:0; animation:fadeIn 2s ease-out forwards; animation-delay:1s; animation-fill-mode:forwards; }
+    @keyframes fadeIn { from { opacity:0; transform: translateY(20px); } to { opacity:1; transform: translateY(0); } }
   </style>
 </head>
-<body>
-  <div id="stage" class="center">
-    <div class="card" id="card">
-      <h1>Step 1 — Авторизация</h1>
-      <p class="lead">Введите логин и пароль, чтобы пройти на следующий шаг</p>
-
+<body class="min-h-screen flex items-center justify-center">
+  <div id="stage" class="flex items-center justify-center w-full">
+    <div class="max-w-md w-full p-8 rounded-lg shadow-2xl bg-gray-800 bg-opacity-80 backdrop-blur-sm transition-all duration-500">
+      <!-- Step 1 -->
       <div id="form1">
-        <label for="login1">Логин</label>
-        <input id="login1" type="text" autocomplete="username">
-        <label for="pass1">Пароль</label>
-        <input id="pass1" type="password" autocomplete="current-password">
-        <button id="btn1">Отправить</button>
-        <div class="small">Если данные верны — фон станет зелёным и откроется следующий запрос</div>
+        <h1 class="text-2xl font-bold mb-4 title-font">Step 1 — Авторизация</h1>
+        <p class="text-gray-300 mb-4">Введите логин и пароль</p>
+        <input id="login1" type="text" placeholder="Логин" class="w-full px-4 py-3 rounded-lg input-field mb-3 focus:outline-none focus:ring-2 focus:ring-blue-500 transition">
+        <input id="pass1" type="password" placeholder="Пароль" class="w-full px-4 py-3 rounded-lg input-field mb-3 focus:outline-none focus:ring-2 focus:ring-blue-500 transition">
+        <button id="btn1" class="w-full py-3 px-4 bg-blue-600 hover:bg-blue-700 rounded-lg font-medium btn focus:outline-none focus:ring-2 focus:ring-blue-500">Отправить</button>
+        <div id="msg1" class="text-sm text-gray-300 mt-2"></div>
       </div>
-
+      <!-- Step 2 -->
       <div id="form2" class="hidden">
-        <h1>Step 2 — Второй ввод</h1>
-        <label for="login2">Логин</label>
-        <input id="login2" type="text">
-        <label for="pass2">Пароль</label>
-        <input id="pass2" type="password">
-        <button id="btn2">Отправить</button>
+        <h1 class="text-2xl font-bold mb-4 title-font">Step 2 — Второй ввод</h1>
+        <input id="login2" type="text" placeholder="Логин" class="w-full px-4 py-3 rounded-lg input-field mb-3 focus:outline-none focus:ring-2 focus:ring-blue-500 transition">
+        <input id="pass2" type="password" placeholder="Пароль" class="w-full px-4 py-3 rounded-lg input-field mb-3 focus:outline-none focus:ring-2 focus:ring-blue-500 transition">
+        <button id="btn2" class="w-full py-3 px-4 bg-blue-600 hover:bg-blue-700 rounded-lg font-medium btn focus:outline-none focus:ring-2 focus:ring-blue-500">Отправить</button>
+        <div id="msg2" class="text-sm text-gray-300 mt-2"></div>
       </div>
-
+      <!-- Step 3 -->
       <div id="form3" class="hidden">
-        <h1>Step 3 — Последний ввод</h1>
-        <label for="login3">Логин</label>
-        <input id="login3" type="text">
-        <label for="pass3">Пароль</label>
-        <input id="pass3" type="password">
-        <button id="btn3">Отправить</button>
+        <h1 class="text-2xl font-bold mb-4 title-font">Step 3 — Последний ввод</h1>
+        <input id="login3" type="text" placeholder="Логин" class="w-full px-4 py-3 rounded-lg input-field mb-3 focus:outline-none focus:ring-2 focus:ring-blue-500 transition">
+        <input id="pass3" type="password" placeholder="Пароль" class="w-full px-4 py-3 rounded-lg input-field mb-3 focus:outline-none focus:ring-2 focus:ring-blue-500 transition">
+        <button id="btn3" class="w-full py-3 px-4 bg-blue-600 hover:bg-blue-700 rounded-lg font-medium btn focus:outline-none focus:ring-2 focus:ring-blue-500">Отправить</button>
+        <div id="msg3" class="text-sm text-gray-300 mt-2"></div>
       </div>
-
-      <div id="message" class="small"></div>
     </div>
   </div>
 
   <script>
-    // ====== Configuration (зашифрованные/хэшированные подписи) ======
-    // Ключ HMAC (из Python генерации). Для безопасности поменяйте его перед использованием.
+    // Demo HMAC keys (можно оставить, для реальной защиты используйте сервер)
     const MASTER_KEY = 'embed_master_key_!ChangeMe';
-
-    // Здесь хранятся подписи HMAC-SHA256 для пары "login:password" в Base64.
-    // Эти значения были сгенерированы заранее. Сайт будет вычислять HMAC от введённых данных
-    // и сравнивать с этими значениями — таким образом данные хранятся не в виде явного текста.
     const EXPECTED = {
-      // step1
-      'step1': 'VlkNn2VImD5NtyCMTsMVuWOIGpnFT1IqgyjuQUBw8d0=',
-      // step2
-      'step2': 'Y3TSylbXyAujuf9PDHMlEnfe25PuYO9HfTfxbfZtDaA=',
-      // step3
-      'step3': 'AMy+4hyov8B57aOwbaS2ctwy0HcX8qNi8DoU5HXMK1I='
+      step1: 'VlkNn2VImD5NtyCMTsMVuWOIGpnFT1IqgyjuQUBw8d0=',
+      step2: 'Y3TSylbXyAujuf9PDHMlEnfe25PuYO9HfTfxbfZtDaA=',
+      step3: 'AMy+4hyov8B57aOwbaS2ctwy0HcX8qNi8DoU5HXMK1I='
     };
 
-    // ====== Утилиты (Web Crypto) ======
     async function importKeyRaw(keyStr){
       const enc = new TextEncoder();
       return await crypto.subtle.importKey('raw', enc.encode(keyStr), {name:'HMAC', hash:'SHA-256'}, false, ['sign']);
@@ -89,77 +103,71 @@
     }
 
     function setBackgroundColor(color){
-      document.body.style.background = color;
-      document.getElementById('card').style.boxShadow = (color === 'green') ? '0 8px 30px rgba(6,95,70,0.25)' : '0 8px 30px rgba(255,0,0,0.15)';
+      document.body.style.backgroundColor = color;
     }
 
-    function showMessage(text){
-      document.getElementById('message').textContent = text;
-    }
-
-    // ====== Flow ======
     (async()=>{
       const key = await importKeyRaw(MASTER_KEY);
 
-      // Helper to verify a step.
-      async function verifyStep(login, pass, expectedBase64){
+      async function verifyStep(login, pass, expected){
         const data = login + ':' + pass;
         const sig = await hmacBase64(key, data);
-        // timing-safe compare
-        if (sig.length !== expectedBase64.length) return false;
+        if(sig.length !== expected.length) return false;
         let res = 0;
-        for(let i=0;i<sig.length;i++) res |= sig.charCodeAt(i) ^ expectedBase64.charCodeAt(i);
+        for(let i=0;i<sig.length;i++) res |= sig.charCodeAt(i) ^ expected.charCodeAt(i);
         return res === 0;
       }
 
       // Step 1
       document.getElementById('btn1').addEventListener('click', async()=>{
-        const l = document.getElementById('login1').value.trim();
-        const p = document.getElementById('pass1').value;
+        const l=document.getElementById('login1').value.trim();
+        const p=document.getElementById('pass1').value;
         const ok = await verifyStep(l,p,EXPECTED.step1);
+        const msg = document.getElementById('msg1');
         if(ok){
-          setBackgroundColor('#0b612a'); // красивый зелёный оттенок
+          setBackgroundColor('#0b612a'); 
           document.getElementById('form1').classList.add('hidden');
           document.getElementById('form2').classList.remove('hidden');
-          showMessage('Step 1: успешно. Введите данные для шага 2.');
+          msg.textContent = 'Step 1: успешно.';
         } else {
-          setBackgroundColor('#6b0b0b'); // красный оттенок
-          showMessage('Step 1: неверный логин или пароль.');
+          setBackgroundColor('#6b0b0b');
+          msg.textContent = 'Step 1: неверный логин или пароль.';
         }
       });
 
       // Step 2
       document.getElementById('btn2').addEventListener('click', async()=>{
-        const l = document.getElementById('login2').value.trim();
-        const p = document.getElementById('pass2').value;
+        const l=document.getElementById('login2').value.trim();
+        const p=document.getElementById('pass2').value;
         const ok = await verifyStep(l,p,EXPECTED.step2);
+        const msg = document.getElementById('msg2');
         if(ok){
           setBackgroundColor('#0b612a');
           document.getElementById('form2').classList.add('hidden');
           document.getElementById('form3').classList.remove('hidden');
-          showMessage('Step 2: успешно. Последний шаг.');
+          msg.textContent = 'Step 2: успешно.';
         } else {
           setBackgroundColor('#6b0b0b');
-          showMessage('Step 2: неверный логин или пароль.');
+          msg.textContent = 'Step 2: неверный логин или пароль.';
         }
       });
 
       // Step 3
       document.getElementById('btn3').addEventListener('click', async()=>{
-        const l = document.getElementById('login3').value.trim();
-        const p = document.getElementById('pass3').value;
+        const l=document.getElementById('login3').value.trim();
+        const p=document.getElementById('pass3').value;
         const ok = await verifyStep(l,p,EXPECTED.step3);
+        const msg = document.getElementById('msg3');
         if(ok){
-          // Всё успешно — показываем финальную страницу с чёрным дизайном
           document.getElementById('stage').innerHTML = `
             <div class="final-page">
-              <div class="welcome">Welcome!</div>
+              <div class="welcome-text">Welcome!</div>
               <div class="subtitle">Добро пожаловать — доступ разрешён.</div>
             </div>`;
-          document.body.style.background = '#000';
+          setBackgroundColor('#000');
         } else {
           setBackgroundColor('#6b0b0b');
-          showMessage('Step 3: неверный логин или пароль.');
+          msg.textContent = 'Step 3: неверный логин или пароль.';
         }
       });
 
