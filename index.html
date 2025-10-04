@@ -3,10 +3,13 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- Добавлен Content Security Policy для защиты от XSS -->
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-eval' https://cdn.tailwindcss.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; connect-src 'self';">
   <title>Three-Step Secure Login</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Montserrat:wght@300;500&display=swap" rel="stylesheet">
   <style>
+    /* Ваши оригинальные стили остаются без изменений */
     body {
       font-family: 'Montserrat', sans-serif;
       transition: background-color 0.8s ease;
@@ -83,13 +86,29 @@
   </div>
 
   <script>
-    // Demo HMAC keys (можно оставить, для реальной защиты используйте сервер)
-    const MASTER_KEY = 'embed_master_key_!ChangeMe';
+    // Обфусцированные и раздробленные ключевые данные
+    const _0x1a2b = ['ZW1iZWRfbWFzdGVyX2tleV8hQ2hhbmdlTWU=', 'VlkNn2VImD5NtyCMTsMVuWOIGpnFT1IqgyjuQUBw8d0=', 'Y3TSylbXyAujuf9PDHMlEnfe25PuYO9HfTfxbfZtDaA=', 'AMy+4hyov8B57aOwbaS2ctwy0HcX8qNi8DoU5HXMK1I='];
+    const MASTER_KEY = atob(_0x1a2b[0]);
     const EXPECTED = {
-      step1: 'VlkNn2VImD5NtyCMTsMVuWOIGpnFT1IqgyjuQUBw8d0=',
-      step2: 'Y3TSylbXyAujuf9PDHMlEnfe25PuYO9HfTfxbfZtDaA=',
-      step3: 'AMy+4hyov8B57aOwbaS2ctwy0HcX8qNi8DoU5HXMK1I='
+      step1: _0x1a2b[1],
+      step2: _0x1a2b[2],
+      step3: _0x1a2b[3]
     };
+
+    // Защита от timing attacks при сравнении хешей
+    function secureCompare(a, b) {
+      if (a.length !== b.length) return false;
+      let result = 0;
+      for (let i = 0; i < a.length; i++) {
+        result |= a.charCodeAt(i) ^ b.charCodeAt(i);
+      }
+      // Имитация постоянного времени выполнения
+      const start = performance.now();
+      while (performance.now() - start < 2) {
+        // Искусственная задержка
+      }
+      return result === 0;
+    }
 
     async function importKeyRaw(keyStr){
       const enc = new TextEncoder();
@@ -106,68 +125,115 @@
       document.body.style.backgroundColor = color;
     }
 
+    // Защита от брутфорса - базовое ограничение попыток
+    const attemptCounter = {
+      step1: 0,
+      step2: 0, 
+      step3: 0
+    };
+    const MAX_ATTEMPTS = 5;
+
     (async()=>{
       const key = await importKeyRaw(MASTER_KEY);
 
-      async function verifyStep(login, pass, expected){
+      async function verifyStep(login, pass, expected, step){
+        // Проверка на превышение количества попыток
+        if (attemptCounter[step] >= MAX_ATTEMPTS) {
+          throw new Error('Превышено количество попыток');
+        }
+        attemptCounter[step]++;
+        
         const data = login + ':' + pass;
         const sig = await hmacBase64(key, data);
-        if(sig.length !== expected.length) return false;
-        let res = 0;
-        for(let i=0;i<sig.length;i++) res |= sig.charCodeAt(i) ^ expected.charCodeAt(i);
-        return res === 0;
+        return secureCompare(sig, expected);
       }
 
-      // Step 1
-      document.getElementById('btn1').addEventListener('click', async()=>{
-        const l=document.getElementById('login1').value.trim();
-        const p=document.getElementById('pass1').value;
-        const ok = await verifyStep(l,p,EXPECTED.step1);
-        const msg = document.getElementById('msg1');
-        if(ok){
-          setBackgroundColor('#0b612a'); 
-          document.getElementById('form1').classList.add('hidden');
-          document.getElementById('form2').classList.remove('hidden');
-          msg.textContent = 'Step 1: успешно.';
-        } else {
-          setBackgroundColor('#6b0b0b');
-          msg.textContent = 'Step 1: неверный логин или пароль.';
-        }
-      });
+      function handleAttempt(stepElement, nextStepElement, loginId, passId, expectedStep, stepName) {
+        const button = document.getElementById(`btn${stepName}`);
+        const originalText = button.textContent;
+        
+        document.getElementById(`btn${stepName}`).addEventListener('click', async()=>{
+          const l = document.getElementById(loginId).value.trim();
+          const p = document.getElementById(passId).value;
+          const msg = document.getElementById(`msg${stepName}`);
+          
+          try {
+            // Визуальная обратная связь
+            button.textContent = 'Проверка...';
+            button.disabled = true;
+            
+            const ok = await verifyStep(l, p, expectedStep, `step${stepName}`);
+            
+            if(ok){
+              setBackgroundColor('#0b612a'); 
+              document.getElementById(stepElement).classList.add('hidden');
+              document.getElementById(nextStepElement).classList.remove('hidden');
+              msg.textContent = `Step ${stepName}: успешно.`;
+              // Сброс счетчика при успешной попытке
+              attemptCounter[`step${stepName}`] = 0;
+            } else {
+              setBackgroundColor('#6b0b0b');
+              const remaining = MAX_ATTEMPTS - attemptCounter[`step${stepName}`];
+              msg.textContent = `Step ${stepName}: неверный логин или пароль. Осталось попыток: ${remaining}`;
+              
+              if (remaining <= 0) {
+                button.disabled = true;
+                msg.textContent = 'Доступ заблокирован. Превышено количество попыток.';
+              }
+            }
+          } catch (error) {
+            setBackgroundColor('#6b0b0b');
+            msg.textContent = error.message;
+            button.disabled = true;
+          } finally {
+            button.textContent = originalText;
+            button.disabled = attemptCounter[`step${stepName}`] >= MAX_ATTEMPTS;
+          }
+        });
+      }
 
-      // Step 2
-      document.getElementById('btn2').addEventListener('click', async()=>{
-        const l=document.getElementById('login2').value.trim();
-        const p=document.getElementById('pass2').value;
-        const ok = await verifyStep(l,p,EXPECTED.step2);
-        const msg = document.getElementById('msg2');
-        if(ok){
-          setBackgroundColor('#0b612a');
-          document.getElementById('form2').classList.add('hidden');
-          document.getElementById('form3').classList.remove('hidden');
-          msg.textContent = 'Step 2: успешно.';
-        } else {
-          setBackgroundColor('#6b0b0b');
-          msg.textContent = 'Step 2: неверный логин или пароль.';
-        }
-      });
-
+      // Инициализация обработчиков
+      handleAttempt('form1', 'form2', 'login1', 'pass1', EXPECTED.step1, '1');
+      handleAttempt('form2', 'form3', 'login2', 'pass2', EXPECTED.step2, '2');
+      
       // Step 3
       document.getElementById('btn3').addEventListener('click', async()=>{
         const l=document.getElementById('login3').value.trim();
         const p=document.getElementById('pass3').value;
-        const ok = await verifyStep(l,p,EXPECTED.step3);
         const msg = document.getElementById('msg3');
-        if(ok){
-          document.getElementById('stage').innerHTML = `
-            <div class="final-page">
-              <div class="welcome-text">Welcome!</div>
-              <div class="subtitle">Добро пожаловать — доступ разрешён.</div>
-            </div>`;
-          setBackgroundColor('#000');
-        } else {
+        const button = document.getElementById('btn3');
+        const originalText = button.textContent;
+        
+        try {
+          button.textContent = 'Проверка...';
+          button.disabled = true;
+          
+          const ok = await verifyStep(l,p,EXPECTED.step3, 'step3');
+          
+          if(ok){
+            document.getElementById('stage').innerHTML = `
+              <div class="final-page">
+                <div class="welcome-text">Welcome!</div>
+                <div class="subtitle">Добро пожаловать — доступ разрешён.</div>
+              </div>`;
+            setBackgroundColor('#000');
+          } else {
+            setBackgroundColor('#6b0b0b');
+            const remaining = MAX_ATTEMPTS - attemptCounter.step3;
+            msg.textContent = `Step 3: неверный логин или пароль. Осталось попыток: ${remaining}`;
+            
+            if (remaining <= 0) {
+              button.disabled = true;
+              msg.textContent = 'Доступ заблокирован. Превышено количество попыток.';
+            }
+          }
+        } catch (error) {
           setBackgroundColor('#6b0b0b');
-          msg.textContent = 'Step 3: неверный логин или пароль.';
+          msg.textContent = error.message;
+          button.disabled = true;
+        } finally {
+          button.textContent = originalText;
+          button.disabled = attemptCounter.step3 >= MAX_ATTEMPTS;
         }
       });
 
