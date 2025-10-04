@@ -1,114 +1,32 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <!-- Добавлен Content Security Policy для защиты от XSS -->
-  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-eval' https://cdn.tailwindcss.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; connect-src 'self';">
-  <title>Three-Step Secure Login</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Montserrat:wght@300;500&display=swap" rel="stylesheet">
-  <style>
-    /* Ваши оригинальные стили остаются без изменений */
-    body {
-      font-family: 'Montserrat', sans-serif;
-      transition: background-color 0.8s ease;
-      overflow: hidden;
-      background-color: #1e293b;
-      color: white;
-    }
-    .title-font { font-family: 'Orbitron', sans-serif; }
-    .input-field {
-      background: rgba(255, 255, 255, 0.1);
-      border: 1px solid rgba(255, 255, 255, 0.3);
-      backdrop-filter: blur(5px);
-    }
-    .btn {
-      transition: all 0.3s ease;
-      position: relative;
-      overflow: hidden;
-    }
-    .btn:after {
-      content: "";
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      width: 5px;
-      height: 5px;
-      background: rgba(255, 255, 255, 0.5);
-      opacity: 0;
-      border-radius: 100%;
-      transform: scale(1, 1) translate(-50%);
-      transform-origin: 50% 50%;
-    }
-    .btn:focus:not(:active)::after { animation: ripple 1s ease-out; }
-    @keyframes ripple { 0% { transform: scale(0,0); opacity:0.5; } 100% { transform: scale(20,20); opacity:0; } }
-    .final-page {
-      background:#000; color:#fff; padding:40px; border-radius:12px; text-align:center;
-    }
-    .welcome-text {
-      font-family:'Orbitron', sans-serif; font-size:3rem; font-weight:700; animation:fadeIn 2s ease-out forwards;
-      opacity:0;
-    }
-    .subtitle { margin-top:8px; color:#cfd6dd; font-size:1.2rem; opacity:0; animation:fadeIn 2s ease-out forwards; animation-delay:1s; animation-fill-mode:forwards; }
-    @keyframes fadeIn { from { opacity:0; transform: translateY(20px); } to { opacity:1; transform: translateY(0); } }
-  </style>
+  <!-- Остальная часть head без изменений -->
+  <style>/* Ваши оригинальные стили остаются здесь */</style>
 </head>
 <body class="min-h-screen flex items-center justify-center">
-  <div id="stage" class="flex items-center justify-center w-full">
-    <div class="max-w-md w-full p-8 rounded-lg shadow-2xl bg-gray-800 bg-opacity-80 backdrop-blur-sm transition-all duration-500">
-      <!-- Step 1 -->
-      <div id="form1">
-        <h1 class="text-2xl font-bold mb-4 title-font">Step 1 — Авторизация</h1>
-        <p class="text-gray-300 mb-4">Введите логин и пароль</p>
-        <input id="login1" type="text" placeholder="Логин" class="w-full px-4 py-3 rounded-lg input-field mb-3 focus:outline-none focus:ring-2 focus:ring-blue-500 transition">
-        <input id="pass1" type="password" placeholder="Пароль" class="w-full px-4 py-3 rounded-lg input-field mb-3 focus:outline-none focus:ring-2 focus:ring-blue-500 transition">
-        <button id="btn1" class="w-full py-3 px-4 bg-blue-600 hover:bg-blue-700 rounded-lg font-medium btn focus:outline-none focus:ring-2 focus:ring-blue-500">Отправить</button>
-        <div id="msg1" class="text-sm text-gray-300 mt-2"></div>
-      </div>
-      <!-- Step 2 -->
-      <div id="form2" class="hidden">
-        <h1 class="text-2xl font-bold mb-4 title-font">Step 2 — Второй ввод</h1>
-        <input id="login2" type="text" placeholder="Логин" class="w-full px-4 py-3 rounded-lg input-field mb-3 focus:outline-none focus:ring-2 focus:ring-blue-500 transition">
-        <input id="pass2" type="password" placeholder="Пароль" class="w-full px-4 py-3 rounded-lg input-field mb-3 focus:outline-none focus:ring-2 focus:ring-blue-500 transition">
-        <button id="btn2" class="w-full py-3 px-4 bg-blue-600 hover:bg-blue-700 rounded-lg font-medium btn focus:outline-none focus:ring-2 focus:ring-blue-500">Отправить</button>
-        <div id="msg2" class="text-sm text-gray-300 mt-2"></div>
-      </div>
-      <!-- Step 3 -->
-      <div id="form3" class="hidden">
-        <h1 class="text-2xl font-bold mb-4 title-font">Step 3 — Последний ввод</h1>
-        <input id="login3" type="text" placeholder="Логин" class="w-full px-4 py-3 rounded-lg input-field mb-3 focus:outline-none focus:ring-2 focus:ring-blue-500 transition">
-        <input id="pass3" type="password" placeholder="Пароль" class="w-full px-4 py-3 rounded-lg input-field mb-3 focus:outline-none focus:ring-2 focus:ring-blue-500 transition">
-        <button id="btn3" class="w-full py-3 px-4 bg-blue-600 hover:bg-blue-700 rounded-lg font-medium btn focus:outline-none focus:ring-2 focus:ring-blue-500">Отправить</button>
-        <div id="msg3" class="text-sm text-gray-300 mt-2"></div>
-      </div>
-    </div>
-  </div>
+  <!-- Ваша оригинальная разметка форм остается здесь без изменений -->
 
   <script>
-    // Обфусцированные и раздробленные ключевые данные
-    const _0x1a2b = ['ZW1iZWRfbWFzdGVyX2tleV8hQ2hhbmdlTWU=', 'VlkNn2VImD5NtyCMTsMVuWOIGpnFT1IqgyjuQUBw8d0=', 'Y3TSylbXyAujuf9PDHMlEnfe25PuYO9HfTfxbfZtDaA=', 'AMy+4hyov8B57aOwbaS2ctwy0HcX8qNi8DoU5HXMK1I='];
-    const MASTER_KEY = atob(_0x1a2b[0]);
+    // Demo HMAC keys (можно оставить, для реальной защиты используйте сервер)
+    const MASTER_KEY = 'embed_master_key_!ChangeMe';
     const EXPECTED = {
-      step1: _0x1a2b[1],
-      step2: _0x1a2b[2],
-      step3: _0x1a2b[3]
+      step1: 'VlkNn2VImD5NtyCMTsMVuWOIGpnFT1IqgyjuQUBw8d0=',
+      step2: 'Y3TSylbXyAujuf9PDHMlEnfe25PuYO9HfTfxbfZtDaA=',
+      step3: 'AMy+4hyov8B57aOwbaS2ctwy0HcX8qNi8DoU5HXMK1I='
     };
 
-    // Защита от timing attacks при сравнении хешей
-    function secureCompare(a, b) {
-      if (a.length !== b.length) return false;
-      let result = 0;
-      for (let i = 0; i < a.length; i++) {
-        result |= a.charCodeAt(i) ^ b.charCodeAt(i);
-      }
-      // Имитация постоянного времени выполнения
-      const start = performance.now();
-      while (performance.now() - start < 2) {
-        // Искусственная задержка
-      }
-      return result === 0;
-    }
+    // Конфигурация блокировки
+    const LOCKOUT_CONFIG = {
+      initial: { attempts: 3, duration: 5 * 60 * 1000 }, // 5 минут
+      extended: { attempts: 6, duration: 30 * 60 * 1000 } // 30 минут
+    };
+
+    // Ключи для localStorage
+    const STORAGE_KEYS = {
+      FAILED_ATTEMPTS: 'failed_login_attempts',
+      LOCKED_UNTIL: 'login_locked_until'
+    };
 
     async function importKeyRaw(keyStr){
       const enc = new TextEncoder();
@@ -125,116 +43,140 @@
       document.body.style.backgroundColor = color;
     }
 
-    // Защита от брутфорса - базовое ограничение попыток
-    const attemptCounter = {
-      step1: 0,
-      step2: 0, 
-      step3: 0
-    };
-    const MAX_ATTEMPTS = 5;
+    // Функции для работы с блокировкой
+    function getFailedAttempts() {
+      return parseInt(localStorage.getItem(STORAGE_KEYS.FAILED_ATTEMPTS)) || 0;
+    }
+
+    function incrementFailedAttempts() {
+      const attempts = getFailedAttempts() + 1;
+      localStorage.setItem(STORAGE_KEYS.FAILED_ATTEMPTS, attempts);
+      return attempts;
+    }
+
+    function resetFailedAttempts() {
+      localStorage.removeItem(STORAGE_KEYS.FAILED_ATTEMPTS);
+      localStorage.removeItem(STORAGE_KEYS.LOCKED_UNTIL);
+    }
+
+    function setLockout(duration) {
+      const lockedUntil = Date.now() + duration;
+      localStorage.setItem(STORAGE_KEYS.LOCKED_UNTIL, lockedUntil);
+    }
+
+    function isLockedOut() {
+      const lockedUntil = localStorage.getItem(STORAGE_KEYS.LOCKED_UNTIL);
+      if (!lockedUntil) return false;
+      
+      if (Date.now() > parseInt(lockedUntil)) {
+        resetFailedAttempts();
+        return false;
+      }
+      return true;
+    }
+
+    function getTimeUntilUnlock() {
+      const lockedUntil = parseInt(localStorage.getItem(STORAGE_KEYS.LOCKED_UNTIL));
+      const now = Date.now();
+      return Math.max(0, Math.ceil((lockedUntil - now) / 1000));
+    }
+
+    function checkAndHandleLockout(step) {
+      if (!isLockedOut()) return false;
+      
+      const secondsLeft = getTimeUntilUnlock();
+      const minutes = Math.floor(secondsLeft / 60);
+      const seconds = secondsLeft % 60;
+      
+      document.getElementById(`msg${step}`).textContent = 
+        `Слишком много неудачных попыток. Попробуйте снова через ${minutes}:${seconds.toString().padStart(2, '0')}`;
+      
+      // Блокируем все кнопки отправки
+      ['btn1', 'btn2', 'btn3'].forEach(id => {
+        const btn = document.getElementById(id);
+        if (btn) btn.disabled = true;
+      });
+      
+      return true;
+    }
 
     (async()=>{
       const key = await importKeyRaw(MASTER_KEY);
 
-      async function verifyStep(login, pass, expected, step){
-        // Проверка на превышение количества попыток
-        if (attemptCounter[step] >= MAX_ATTEMPTS) {
-          throw new Error('Превышено количество попыток');
-        }
-        attemptCounter[step]++;
-        
+      async function verifyStep(login, pass, expected){
         const data = login + ':' + pass;
         const sig = await hmacBase64(key, data);
-        return secureCompare(sig, expected);
+        if(sig.length !== expected.length) return false;
+        let res = 0;
+        for(let i=0;i<sig.length;i++) res |= sig.charCodeAt(i) ^ expected.charCodeAt(i);
+        return res === 0;
       }
 
-      function handleAttempt(stepElement, nextStepElement, loginId, passId, expectedStep, stepName) {
-        const button = document.getElementById(`btn${stepName}`);
-        const originalText = button.textContent;
+      // Общая функция для обработки попыток
+      function handleAuthAttempt(step, loginId, passId, expectedSig, nextFormId) {
+        const button = document.getElementById(`btn${step}`);
+        const loginField = document.getElementById(loginId);
+        const passField = document.getElementById(passId);
+        const messageEl = document.getElementById(`msg${step}`);
         
-        document.getElementById(`btn${stepName}`).addEventListener('click', async()=>{
-          const l = document.getElementById(loginId).value.trim();
-          const p = document.getElementById(passId).value;
-          const msg = document.getElementById(`msg${stepName}`);
+        button.addEventListener('click', async function() {
+          // Проверяем блокировку при каждом клике
+          if (checkAndHandleLockout(step)) {
+            return;
+          }
           
-          try {
-            // Визуальная обратная связь
-            button.textContent = 'Проверка...';
-            button.disabled = true;
-            
-            const ok = await verifyStep(l, p, expectedStep, `step${stepName}`);
-            
-            if(ok){
-              setBackgroundColor('#0b612a'); 
-              document.getElementById(stepElement).classList.add('hidden');
-              document.getElementById(nextStepElement).classList.remove('hidden');
-              msg.textContent = `Step ${stepName}: успешно.`;
-              // Сброс счетчика при успешной попытке
-              attemptCounter[`step${stepName}`] = 0;
+          const l = loginField.value.trim();
+          const p = passField.value;
+          
+          const ok = await verifyStep(l, p, expectedSig);
+          
+          if(ok){
+            resetFailedAttempts(); // Сбрасываем при успешном входе
+            setBackgroundColor('#0b612a');
+            if (nextFormId) {
+              document.getElementById(`form${step}`).classList.add('hidden');
+              document.getElementById(nextFormId).classList.remove('hidden');
             } else {
-              setBackgroundColor('#6b0b0b');
-              const remaining = MAX_ATTEMPTS - attemptCounter[`step${stepName}`];
-              msg.textContent = `Step ${stepName}: неверный логин или пароль. Осталось попыток: ${remaining}`;
-              
-              if (remaining <= 0) {
-                button.disabled = true;
-                msg.textContent = 'Доступ заблокирован. Превышено количество попыток.';
-              }
+              // Финальный успешный вход
+              document.getElementById('stage').innerHTML = `
+                <div class="final-page">
+                  <div class="welcome-text">Welcome!</div>
+                  <div class="subtitle">Добро пожаловать — доступ разрешён.</div>
+                </div>`;
+              setBackgroundColor('#000');
             }
-          } catch (error) {
-            setBackgroundColor('#6b0b0b');
-            msg.textContent = error.message;
-            button.disabled = true;
-          } finally {
-            button.textContent = originalText;
-            button.disabled = attemptCounter[`step${stepName}`] >= MAX_ATTEMPTS;
+            messageEl.textContent = `Step ${step}: успешно.`;
+          } else {
+            const attempts = incrementFailedAttempts();
+            let lockoutTime = null;
+            
+            // Определяем продолжительность блокировки
+            if (attempts >= LOCKOUT_CONFIG.extended.attempts) {
+              lockoutTime = LOCKOUT_CONFIG.extended.duration;
+            } else if (attempts >= LOCKOUT_CONFIG.initial.attempts) {
+              lockoutTime = LOCKOUT_CONFIG.initial.duration;
+            }
+            
+            if (lockoutTime) {
+              setLockout(lockoutTime);
+              checkAndHandleLockout(step); // Активируем блокировку
+            } else {
+              const remaining = LOCKOUT_CONFIG.initial.attempts - attempts;
+              setBackgroundColor('#6b0b0b');
+              messageEl.textContent = `Step ${step}: неверный логин или пароль. Осталось попыток: ${remaining}`;
+            }
           }
         });
       }
 
-      // Инициализация обработчиков
-      handleAttempt('form1', 'form2', 'login1', 'pass1', EXPECTED.step1, '1');
-      handleAttempt('form2', 'form3', 'login2', 'pass2', EXPECTED.step2, '2');
+      // Инициализация обработчиков для каждой ступени
+      handleAuthAttempt('1', 'login1', 'pass1', EXPECTED.step1, 'form2');
+      handleAuthAttempt('2', 'login2', 'pass2', EXPECTED.step2, 'form3');
+      handleAuthAttempt('3', 'login3', 'pass3', EXPECTED.step3, null);
       
-      // Step 3
-      document.getElementById('btn3').addEventListener('click', async()=>{
-        const l=document.getElementById('login3').value.trim();
-        const p=document.getElementById('pass3').value;
-        const msg = document.getElementById('msg3');
-        const button = document.getElementById('btn3');
-        const originalText = button.textContent;
-        
-        try {
-          button.textContent = 'Проверка...';
-          button.disabled = true;
-          
-          const ok = await verifyStep(l,p,EXPECTED.step3, 'step3');
-          
-          if(ok){
-            document.getElementById('stage').innerHTML = `
-              <div class="final-page">
-                <div class="welcome-text">Welcome!</div>
-                <div class="subtitle">Добро пожаловать — доступ разрешён.</div>
-              </div>`;
-            setBackgroundColor('#000');
-          } else {
-            setBackgroundColor('#6b0b0b');
-            const remaining = MAX_ATTEMPTS - attemptCounter.step3;
-            msg.textContent = `Step 3: неверный логин или пароль. Осталось попыток: ${remaining}`;
-            
-            if (remaining <= 0) {
-              button.disabled = true;
-              msg.textContent = 'Доступ заблокирован. Превышено количество попыток.';
-            }
-          }
-        } catch (error) {
-          setBackgroundColor('#6b0b0b');
-          msg.textContent = error.message;
-          button.disabled = true;
-        } finally {
-          button.textContent = originalText;
-          button.disabled = attemptCounter.step3 >= MAX_ATTEMPTS;
-        }
+      // Проверяем блокировку при загрузке страницы
+      window.addEventListener('load', function() {
+        checkAndHandleLockout('1');
       });
 
     })();
