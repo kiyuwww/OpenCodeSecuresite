@@ -8,67 +8,67 @@
     <script src="https://unpkg.com/feather-icons"></script>
     <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js"></script>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap');
         body {
-            font-family: 'Orbitron', sans-serif;
+            font-family: 'Montserrat', sans-serif;
             background-color: #000;
             color: #fff;
-            overflow-x: hidden;
         }
-        .custom-shadow {
-            text-shadow: 0 0 10px rgba(255,255,255,0.7), 0 0 20px rgba(255,255,255,0.5);
+        .custom-border {
+            border: 1px solid #333;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+        .custom-border:hover {
+            border-color: #555;
         }
         .password-input {
-            letter-spacing: 3px;
-            background: rgba(255,255,255,0.1);
-            border: 1px solid rgba(255,255,255,0.3);
+            background: #111;
+            border: 1px solid #333;
         }
         .note-card {
-            background: rgba(30,30,30,0.8);
-            backdrop-filter: blur(5px);
-            border: 1px solid rgba(255,255,255,0.1);
+            background: #111;
+            border: 1px solid #333;
             transition: all 0.3s ease;
         }
         .note-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+            border-color: #555;
         }
-        .sticky-man {
-            filter: drop-shadow(0 0 10px rgba(255,255,255,0.5));
+        .btn {
+            background: #222;
             transition: all 0.3s ease;
         }
-        .sticky-man:hover {
-            transform: scale(1.1);
+        .btn:hover {
+            background: #333;
         }
     </style>
 </head>
 <body class="min-h-screen relative">
     <!-- Main Content -->
     <div id="main-content" class="min-h-screen flex flex-col justify-center items-center px-4 py-20">
-        <!-- Animated Title -->
-        <h1 id="welcome-text" class="text-4xl md:text-6xl font-bold mb-10 text-center opacity-0 custom-shadow">Welcome to Elka Mods!</h1>
-        
-        <!-- Secret Man Button -->
-        <div id="secret-man" class="fixed top-5 right-5 cursor-pointer z-50 sticky-man">
-            <i data-feather="user" class="w-12 h-12 text-white"></i>
-        </div>
+        <!-- Title -->
+        <h1 id="welcome-text" class="text-4xl md:text-6xl font-bold mb-10 text-center opacity-0">Welcome to Elka Mods</h1>
+        <!-- Admin Button -->
+        <div id="secret-man" class="fixed top-5 right-5 cursor-pointer z-50">
+            <i data-feather="user" class="w-10 h-10 text-white"></i>
+</div>
     </div>
 
     <!-- Login Modal -->
     <div id="login-modal" class="fixed inset-0 bg-black bg-opacity-90 flex items-center justify-center z-50 hidden">
-        <div class="bg-gray-900 rounded-lg p-8 max-w-md w-full border border-gray-700">
-            <h2 class="text-2xl font-bold mb-6 text-center custom-shadow">Secret Access</h2>
+        <div class="bg-black custom-border p-8 max-w-md w-full">
+            <h2 class="text-2xl font-bold mb-6 text-center">Admin Login</h2>
             <div class="space-y-4">
                 <div>
                     <label class="block text-sm font-medium mb-2">Username</label>
-                    <input type="text" id="username" class="w-full px-4 py-2 rounded password-input" placeholder="adminuser333">
-                </div>
+                    <input type="text" id="username" class="w-full px-4 py-2 rounded password-input custom-border" placeholder="Enter username">
+</div>
                 <div>
                     <label class="block text-sm font-medium mb-2">Password</label>
-                    <input type="password" id="password" class="w-full px-4 py-2 rounded password-input" placeholder="ADHBTN446L9K0">
-                </div>
-                <button id="login-btn" class="w-full bg-gray-800 hover:bg-gray-700 text-white py-2 px-4 rounded transition duration-300">
-                    Enter Secret Panel
+                    <input type="password" id="password" class="w-full px-4 py-2 rounded password-input custom-border" placeholder="Enter password">
+</div>
+                <button id="login-btn" class="w-full btn text-white py-2 px-4 rounded">
+Enter Secret Panel
                 </button>
                 <p id="login-error" class="text-red-500 text-sm text-center hidden">Invalid credentials!</p>
             </div>
@@ -78,27 +78,26 @@
     <!-- Admin Panel -->
     <div id="admin-panel" class="min-h-screen hidden bg-black px-4 py-20">
         <div class="max-w-4xl mx-auto">
-            <h1 id="admin-title" class="text-4xl md:text-6xl font-bold mb-10 text-center opacity-0 custom-shadow">Welcome to Admin Panel</h1>
-            
-            <!-- Notes Section -->
+            <h1 id="admin-title" class="text-4xl md:text-6xl font-bold mb-10 text-center opacity-0">Admin Panel</h1>
+<!-- Notes Section -->
             <div class="mt-12">
-                <h2 class="text-2xl font-bold mb-6 custom-shadow">Your Notes</h2>
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8" id="notes-container">
+                <h2 class="text-2xl font-bold mb-6">Your Notes</h2>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8" id="notes-container">
                     <!-- Notes will be added here -->
                 </div>
                 
                 <!-- Add Note Form -->
-                <div class="bg-gray-900 rounded-lg p-6">
-                    <h3 class="text-xl font-bold mb-4">Add New Note</h3>
+                <div class="bg-black custom-border p-6">
+<h3 class="text-xl font-bold mb-4">Add New Note</h3>
                     <div class="space-y-4">
                         <div>
-                            <input type="text" id="note-title" class="w-full px-4 py-2 rounded bg-gray-800 border border-gray-700" placeholder="Title">
-                        </div>
+                            <input type="text" id="note-title" class="w-full px-4 py-2 rounded bg-black custom-border" placeholder="Title">
+</div>
                         <div>
-                            <textarea id="note-content" rows="4" class="w-full px-4 py-2 rounded bg-gray-800 border border-gray-700" placeholder="Your note content..."></textarea>
-                        </div>
-                        <button id="add-note-btn" class="bg-gray-800 hover:bg-gray-700 text-white py-2 px-6 rounded transition duration-300">
-                            Save Note
+                            <textarea id="note-content" rows="4" class="w-full px-4 py-2 rounded bg-black custom-border" placeholder="Your note content..."></textarea>
+</div>
+                        <button id="add-note-btn" class="btn text-white py-2 px-6 rounded">
+Save Note
                         </button>
                     </div>
                 </div>
@@ -107,6 +106,20 @@
     </div>
 
     <script>
+        // 🔐 DECRYPTION FUNCTION
+        function decrypt(str, key) {
+            let result = '';
+            for (let i = 0; i < str.length; i++) {
+                result += String.fromCharCode(str.charCodeAt(i) ^ key);
+            }
+            return result;
+        }
+
+        // 🔐 ENCRYPTED CREDENTIALS
+        const encryptedUser = 'úÎáÎÓßÓæÍçêë'; // encrypted 'adminuser333'
+        const encryptedPass = 'îÞÍîúÞîÁúÄÞîÞîÁ'; // encrypted 'ADHBTN446L9K0'
+        const decryptKey = 42;
+
         // Initialize feather icons
         feather.replace();
         
@@ -131,12 +144,16 @@
                 });
             });
 
-            // Login functionality
+            // Login functionality (DECRYPTED CHECK)
             document.getElementById('login-btn').addEventListener('click', () => {
                 const username = document.getElementById('username').value;
                 const password = document.getElementById('password').value;
                 
-                if (username === 'adminuser333' && password === 'ADHBTN446L9K0') {
+                // DECRYPT credentials for comparison
+                const realUser = decrypt(encryptedUser, decryptKey);
+                const realPass = decrypt(encryptedPass, decryptKey);
+                
+                if (username === realUser && password === realPass) {
                     // Hide login modal
                     anime({
                         targets: '#login-modal',
