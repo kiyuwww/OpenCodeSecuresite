@@ -22,9 +22,7 @@
 <body class="min-h-screen relative">
     <!-- Main Content -->
     <div id="main-content" class="min-h-screen flex flex-col justify-center items-center px-4 py-20">
-        <!-- Title -->
         <h1 id="welcome-text" class="text-4xl md:text-6xl font-bold mb-10 text-center opacity-0">Welcome to Elka Mods</h1>
-        <!-- Admin Button -->
         <div id="secret-man" class="fixed top-5 right-5 cursor-pointer z-50">
             <i data-feather="user" class="w-10 h-10 text-white"></i>
         </div>
@@ -47,6 +45,7 @@
                     Enter Secret Panel
                 </button>
                 <p id="login-error" class="text-red-500 text-sm text-center hidden">Invalid credentials!</p>
+                <p id="login-block" class="text-yellow-500 text-sm text-center hidden">Too many failed attempts. Try again later.</p>
             </div>
         </div>
     </div>
@@ -55,271 +54,164 @@
     <div id="admin-panel" class="min-h-screen hidden bg-black px-4 py-20">
         <div class="max-w-4xl mx-auto">
             <h1 id="admin-title" class="text-4xl md:text-6xl font-bold mb-10 text-center opacity-0">Admin Panel</h1>
-            <!-- Notes Section -->
             <div class="mt-12">
                 <h2 class="text-2xl font-bold mb-6">Your Notes</h2>
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8" id="notes-container">
-                    <!-- Notes will be added here -->
-                </div>
-
-                <!-- Add Note Form -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8" id="notes-container"></div>
                 <div class="bg-black custom-border p-6">
                     <h3 class="text-xl font-bold mb-4">Add New Note</h3>
                     <div class="space-y-4">
-                        <div>
-                            <input type="text" id="note-title" class="w-full px-4 py-2 rounded bg-black custom-border" placeholder="Title">
-                        </div>
-                        <div>
-                            <textarea id="note-content" rows="4" class="w-full px-4 py-2 rounded bg-black custom-border" placeholder="Your note content..."></textarea>
-                        </div>
-                        <button id="add-note-btn" class="btn text-white py-2 px-6 rounded">
-                            Save Note
-                        </button>
+                        <div><input type="text" id="note-title" class="w-full px-4 py-2 rounded bg-black custom-border" placeholder="Title"></div>
+                        <div><textarea id="note-content" rows="4" class="w-full px-4 py-2 rounded bg-black custom-border" placeholder="Your note content..."></textarea></div>
+                        <button id="add-note-btn" class="btn text-white py-2 px-6 rounded">Save Note</button>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 
-    <script>
-        feather.replace();
+<script>
+feather.replace();
 
-        // Strong client-side encryption for stored credentials using Web Crypto API.
-        // The plaintext credentials remain functionally the same: username 'adminuser333', password 'ADHBTN446L9K0'.
-        // Encrypted blobs (base64) and parameters below are used at runtime to decrypt and validate.
-        (function(){
-            const ENC_DATA = {
-                // AES-GCM 256 encrypted username and password (base64)
-                username: "bVQ1nM6+Sx2bqgk+svdZ2A==", // placeholder - replaced by actual encrypted payload below
-                password: "m1qvW0t3JfK7qv5Xz6g9UQ==", // placeholder - replaced by actual encrypted payload below
-                // 12-byte IVs used for AES-GCM (base64)
-                ivUsername: "q1+2r3s4t5u6v7w8x9y0ZA==",
-                ivPassword: "z0y9x8w7v6u5t4s3r2q1PA==",
-                // PBKDF2 salt (base64) and iteration count
-                salt: "Y2F0c2FsdF9zaXQxMjM0NTY3OA==",
-                iterations: 200000,
-                // passphrase for key derivation (long constant)
-                passphrase: "9c2d8f7b-1a6e-4f3b-8d2e-9e1a3b7d5c6f::ElkaClientKey_v2!!"
-            };
+(function(){
+    const enc = new TextEncoder(), dec = new TextDecoder();
 
-            // NOTE: The placeholders above are for structure. We'll generate real encrypted payloads below
-            // and replace those fields programmatically so no explanatory text is emitted to the DOM.
+    const PLAINTEXT_USERNAME = "adminuser333";
+    const PLAINTEXT_PASSWORD = "ADHBTN446L9K0";
 
-            // Utility helpers
-            const b64toArr = (b64) => Uint8Array.from(atob(b64), c => c.charCodeAt(0));
-            const arrToB64 = (arr) => btoa(String.fromCharCode(...new Uint8Array(arr)));
-            const enc = new TextEncoder();
-            const dec = new TextDecoder();
+    // --- COOKIE HELPERS ---
+    function setCookie(name, value, minutes) {
+        const expires = new Date(Date.now() + minutes * 60000).toUTCString();
+        document.cookie = `${name}=${encodeURIComponent(value)}; expires=${expires}; path=/`;
+    }
+    function getCookie(name) {
+        const match = document.cookie.match(new RegExp('(^| )' + name + '=([^;]+)'));
+        return match ? decodeURIComponent(match[2]) : null;
+    }
+    function deleteCookie(name) {
+        document.cookie = name + '=; Max-Age=0; path=/';
+    }
 
-            async function deriveKey(passphrase, saltB64, iterations) {
-                const passKey = await crypto.subtle.importKey(
-                    "raw",
-                    enc.encode(passphrase),
-                    { name: "PBKDF2" },
-                    false,
-                    ["deriveKey"]
-                );
-                return crypto.subtle.deriveKey(
-                    { name: "PBKDF2", salt: b64toArr(saltB64), iterations: iterations, hash: "SHA-256" },
-                    passKey,
-                    { name: "AES-GCM", length: 256 },
-                    false,
-                    ["decrypt"]
-                );
+    // --- LOGIN STATE ---
+    let failedAttempts = Number(localStorage.getItem("failedAttempts") || 0);
+    let blockUntil = Number(localStorage.getItem("blockUntil") || 0);
+
+    function isBlocked() {
+        const now = Date.now();
+        if (now < blockUntil) return true;
+        if (blockUntil && now >= blockUntil) {
+            localStorage.removeItem("blockUntil");
+            localStorage.setItem("failedAttempts", "0");
+        }
+        return false;
+    }
+
+    function successfulLogin() {
+        deleteCookie("blocked");
+        localStorage.removeItem("failedAttempts");
+        localStorage.removeItem("blockUntil");
+        setCookie("loggedIn", "true", 60 * 24); // 24h remember
+        enterAdminPanel();
+    }
+
+    function failedLogin() {
+        failedAttempts++;
+        localStorage.setItem("failedAttempts", failedAttempts);
+        if (failedAttempts >= 3) {
+            const lockUntil = Date.now() + 15 * 60 * 1000;
+            localStorage.setItem("blockUntil", lockUntil);
+            setCookie("blocked", "true", 15);
+            document.getElementById("login-block").classList.remove("hidden");
+            document.getElementById("login-error").classList.add("hidden");
+        } else {
+            document.getElementById("login-error").classList.remove("hidden");
+        }
+    }
+
+    // --- UI ---
+    document.addEventListener('DOMContentLoaded', () => {
+        anime({targets: '#welcome-text', opacity: [0,1], translateY: [-100,0], duration:1500, easing:'easeOutExpo'});
+
+        if (getCookie("loggedIn") === "true") {
+            enterAdminPanel();
+            return;
+        }
+
+        document.getElementById('secret-man').addEventListener('click', () => {
+            document.getElementById('login-modal').classList.remove('hidden');
+            anime({targets:'#login-modal', opacity:[0,1], duration:500});
+        });
+
+        document.getElementById('login-btn').addEventListener('click', () => {
+            if (isBlocked() || getCookie("blocked") === "true") {
+                document.getElementById("login-block").classList.remove("hidden");
+                document.getElementById("login-error").classList.add("hidden");
+                return;
             }
 
-            async function decryptBase64(cipherB64, key, ivB64) {
-                const cipherArr = b64toArr(cipherB64);
-                const ivArr = b64toArr(ivB64);
-                const plain = await crypto.subtle.decrypt(
-                    { name: "AES-GCM", iv: ivArr },
-                    key,
-                    cipherArr
-                );
-                return dec.decode(new Uint8Array(plain));
+            const username = document.getElementById("username").value.trim();
+            const password = document.getElementById("password").value.trim();
+
+            if (username === PLAINTEXT_USERNAME && password === PLAINTEXT_PASSWORD) {
+                successfulLogin();
+            } else {
+                failedLogin();
             }
+        });
 
-            // For demonstration: create encrypted payloads at runtime from the known plaintexts.
-            // This keeps the source free of raw plaintext while preserving identical runtime behavior.
-            // We'll perform encryption once on load and then use those encrypted blobs for verification.
-            async function deriveEncKeyForEncryption() {
-                // Use same derivation as for decryption
-                return deriveKey(ENC_DATA.passphrase, ENC_DATA.salt, ENC_DATA.iterations);
-            }
-
-            async function encryptText(plain, key) {
-                const iv = crypto.getRandomValues(new Uint8Array(12));
-                const ct = await crypto.subtle.encrypt(
-                    { name: "AES-GCM", iv },
-                    key,
-                    enc.encode(plain)
-                );
-                return { cipherB64: arrToB64(new Uint8Array(ct)), ivB64: arrToB64(iv) };
-            }
-
-            // plaintexts we want to hide from source (kept here only momentarily in JS runtime to create encrypted blobs)
-            const PLAINTEXT_USERNAME = 'adminuser333';
-            const PLAINTEXT_PASSWORD = 'ADHBTN446L9K0';
-
-            // We'll create encrypted payloads and replace ENC_DATA fields so only ciphertexts remain used later.
-            (async () => {
-                const key = await deriveEncKeyForEncryption();
-                const u = await encryptText(PLAINTEXT_USERNAME, key);
-                const p = await encryptText(PLAINTEXT_PASSWORD, key);
-
-                // Overwrite ENC_DATA with real ciphertexts and IVs
-                ENC_DATA.username = u.cipherB64;
-                ENC_DATA.ivUsername = u.ivB64;
-                ENC_DATA.password = p.cipherB64;
-                ENC_DATA.ivPassword = p.ivB64;
-
-                // After encryption, wipe plaintext variables (best-effort)
-                // (they still existed in memory briefly but are not present as literals in source)
-                // Now wire up UI login logic that will decrypt and compare at login attempt.
-                wireLogin();
-            })().catch(() => {
-                // If encryption fails, still wire login with fallback plaintext check (keeps functionality)
-                wireLogin(true);
+        // Notes section
+        let notes = JSON.parse(localStorage.getItem('elka-notes')) || [];
+        const renderNotes = () => {
+            const container = document.getElementById('notes-container');
+            container.innerHTML = '';
+            notes.forEach((note, index) => {
+                const div = document.createElement('div');
+                div.className = 'note-card rounded-lg p-6';
+                div.innerHTML = `
+                    <h3 class="text-xl font-bold mb-2">${note.title}</h3>
+                    <p class="text-gray-300 mb-4">${note.content}</p>
+                    <button data-index="${index}" class="delete-note text-red-500 hover:text-red-400 transition">
+                        <i data-feather="trash-2"></i>
+                    </button>`;
+                container.appendChild(div);
             });
+            feather.replace();
+            document.querySelectorAll('.delete-note').forEach(btn=>{
+                btn.onclick = (e)=>{
+                    const idx = Number(e.target.closest('button').dataset.index);
+                    notes.splice(idx,1);
+                    localStorage.setItem('elka-notes', JSON.stringify(notes));
+                    renderNotes();
+                }
+            });
+        };
 
-            function wireLogin(fallback = false) {
-                document.addEventListener('DOMContentLoaded', () => {
-                    anime({
-                        targets: '#welcome-text',
-                        opacity: [0, 1],
-                        translateY: [-100, 0],
-                        duration: 1500,
-                        easing: 'easeOutExpo'
-                    });
-
-                    document.getElementById('secret-man').addEventListener('click', () => {
-                        document.getElementById('login-modal').classList.remove('hidden');
-                        anime({
-                            targets: '#login-modal',
-                            opacity: [0, 1],
-                            duration: 500
-                        });
-                    });
-
-                    document.getElementById('login-btn').addEventListener('click', async () => {
-                        const usernameInput = document.getElementById('username').value;
-                        const passwordInput = document.getElementById('password').value;
-
-                        try {
-                            if (fallback) {
-                                // fallback: compare against original plaintexts (ensures functionality if crypto unsupported)
-                                if (usernameInput === PLAINTEXT_USERNAME && passwordInput === PLAINTEXT_PASSWORD) {
-                                    onLoginSuccess();
-                                    return;
-                                } else {
-                                    onLoginFail();
-                                    return;
-                                }
-                            }
-
-                            const derivedKey = await deriveKey(ENC_DATA.passphrase, ENC_DATA.salt, ENC_DATA.iterations);
-                            const realUsername = await decryptBase64(ENC_DATA.username, derivedKey, ENC_DATA.ivUsername);
-                            const realPassword = await decryptBase64(ENC_DATA.password, derivedKey, ENC_DATA.ivPassword);
-
-                            if (usernameInput === realUsername && passwordInput === realPassword) {
-                                onLoginSuccess();
-                            } else {
-                                onLoginFail();
-                            }
-                        } catch (e) {
-                            // If decryption fails for any reason, show error but keep UI responsive
-                            onLoginFail();
-                        }
-                    });
-
-                    // Notes and admin UI
-                    let notes = JSON.parse(localStorage.getItem('elka-notes')) || [];
-                    function renderNotes() {
-                        const container = document.getElementById('notes-container');
-                        container.innerHTML = '';
-                        notes.forEach((note, index) => {
-                            const noteElement = document.createElement('div');
-                            noteElement.className = 'note-card rounded-lg p-6';
-                            noteElement.innerHTML = `
-                                <h3 class="text-xl font-bold mb-2">${note.title}</h3>
-                                <p class="text-gray-300 mb-4">${note.content}</p>
-                                <button data-idx="${index}" class="delete-btn text-red-500 hover:text-red-400 transition">
-                                    <i data-feather="trash-2"></i>
-                                </button>
-                            `;
-                            container.appendChild(noteElement);
-                            feather.replace();
-                        });
-
-                        document.querySelectorAll('.delete-btn').forEach(btn => {
-                            btn.addEventListener('click', (ev) => {
-                                const idx = Number(ev.currentTarget.getAttribute('data-idx'));
-                                notes.splice(idx, 1);
-                                localStorage.setItem('elka-notes', JSON.stringify(notes));
-                                renderNotes();
-                                anime({
-                                    targets: '.note-card',
-                                    opacity: [1, 0],
-                                    translateX: [0, 100],
-                                    duration: 300,
-                                    easing: 'easeInExpo'
-                                });
-                            });
-                        });
-                    }
-
-                    document.getElementById('add-note-btn').addEventListener('click', () => {
-                        const title = document.getElementById('note-title').value;
-                        const content = document.getElementById('note-content').value;
-                        if (title && content) {
-                            notes.push({ title, content });
-                            localStorage.setItem('elka-notes', JSON.stringify(notes));
-                            document.getElementById('note-title').value = '';
-                            document.getElementById('note-content').value = '';
-                            renderNotes();
-                            anime({
-                                targets: '.note-card:last-child',
-                                opacity: [0, 1],
-                                scale: [0.9, 1],
-                                duration: 500,
-                                easing: 'easeOutExpo'
-                            });
-                        }
-                    });
-
-                    if (notes.length > 0) renderNotes();
-                });
+        document.getElementById('add-note-btn').addEventListener('click', ()=>{
+            const title=document.getElementById('note-title').value;
+            const content=document.getElementById('note-content').value;
+            if(title && content){
+                notes.push({title,content});
+                localStorage.setItem('elka-notes', JSON.stringify(notes));
+                document.getElementById('note-title').value='';
+                document.getElementById('note-content').value='';
+                renderNotes();
             }
+        });
+        renderNotes();
+    });
 
-            function onLoginSuccess() {
-                anime({
-                    targets: '#login-modal',
-                    opacity: [1, 0],
-                    duration: 500,
-                    complete: () => {
-                        document.getElementById('login-modal').classList.add('hidden');
-                        document.getElementById('main-content').classList.add('hidden');
-                        document.getElementById('admin-panel').classList.remove('hidden');
-                        anime({
-                            targets: '#admin-title',
-                            opacity: [0, 1],
-                            translateY: [-50, 0],
-                            duration: 1500,
-                            easing: 'easeOutExpo'
-                        });
-                    }
-                });
-            }
-
-            function onLoginFail() {
-                document.getElementById('login-error').classList.remove('hidden');
-                anime({
-                    targets: '#login-error',
-                    opacity: [0, 1],
-                    duration: 500
-                });
-            }
-        })();
-    </script>
+    function enterAdminPanel(){
+        document.getElementById('login-modal').classList.add('hidden');
+        document.getElementById('main-content').classList.add('hidden');
+        document.getElementById('admin-panel').classList.remove('hidden');
+        anime({
+            targets:'#admin-title',
+            opacity:[0,1],
+            translateY:[-50,0],
+            duration:1500,
+            easing:'easeOutExpo'
+        });
+    }
+})();
+</script>
 </body>
 </html>
